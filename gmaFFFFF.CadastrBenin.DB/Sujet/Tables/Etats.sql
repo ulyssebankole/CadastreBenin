@@ -1,0 +1,4 @@
+﻿CREATE TABLE Sujet.Etats(
+	Nom	nvarchar(100)	NOT NULL,
+	PRIMARY KEY CLUSTERED (Nom)
+)

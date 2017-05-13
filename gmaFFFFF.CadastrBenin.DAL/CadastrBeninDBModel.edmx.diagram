@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+	<!-- Diagram content (shape and connector positions) -->
+	<edmx:Diagrams>
+	  <Diagram DiagramId="3f065858214241fbae67cb21c4a25cc5" Name="Diagram1">
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.CadastraleDivision" Width="1.5" PointX="10.125" PointY="8.75" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.CertificationDocument" Width="1.5" PointX="16.375" PointY="16.125" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.CertificationDocumentType" Width="1.5" PointX="14.125" PointY="15" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Immeuble" Width="1.5" PointX="20.5" PointY="8.875" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Impot" Width="1.5" PointX="17.5" PointY="13.625" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.JuridiqueObjet" Width="1.5" PointX="14.875" PointY="10.375" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Parcelle" Width="1.75" PointX="20.125" PointY="11.625" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.SinistreeRegion" Width="1.5" PointX="11" PointY="2.125" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.SinistreeType" Width="1.5" PointX="8.75" PointY="2.375" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Utilisation" Width="1.5" PointX="17.125" PointY="6.125" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.UtilisationType" Width="1.5" PointX="16" PointY="1.25" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.JuridiqueType" Width="1.5" PointX="1.5" PointY="18.625" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.ProprietaireAncien" Width="1.5" PointX="5.25" PointY="8.625" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.ProprietairePresume" Width="1.5" PointX="12.875" PointY="3.875" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.TransactionDocument" Width="1.5" PointX="1.75" PointY="1.125" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.TransactionDocumentType" Width="1.5" PointX="0.5" PointY="10.75" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.TransactionObjet" Width="1.5" PointX="15.25" PointY="4.125" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Transaction" Width="1.5" PointX="6.5" PointY="0.5" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.TransactionType" Width="1.5" PointX="3.75" PointY="16.125" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Corporation" Width="1.5" PointX="3.5" PointY="13.5" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Etat" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Personne" Width="1.5" PointX="0.5" PointY="13.125" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.SujetDocument" Width="1.5" PointX="8.25" PointY="8.375" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.SujetDocumentType" Width="1.5" PointX="4.125" PointY="3.5" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Sujet" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.CadastraleDepartements_v" Width="2.875" PointX="5.375" PointY="20.25" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.CadastraleSecteurs_v" Width="2.875" PointX="10.75" PointY="20.25" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.CadastraleZones_v" Width="1.5" PointX="8.875" PointY="20.25" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Immeubles_Parcelles_v" Width="1.5" PointX="7.75" PointY="5.875" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Immeubles_v" Width="1.5" PointX="5.875" PointY="14.875" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Parcelles_v" Width="1.5" PointX="8.125" PointY="15" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Sinestree_Parcelles_v" Width="1.5" PointX="12.125" PointY="14.875" IsExpanded="true" />
+		<EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.JuridiqueSituations_v" Width="3" PointX="10.125" PointY="16.5" IsExpanded="true" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Juridique__CadSe__5F7E2DAC" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Certifica__Certi__66603565" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Certifica__Parce__339FAB6E" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Impots__Parcelle__3493CFA7" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Transacti__Jurid__71D1E811" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Utilisati__Jurid__6383C8BA" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Sinistree__Sinis__656C112C" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Utilisati__Utili__6477ECF3" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Transacti__Jurid__6FE99F9F" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Proprieta__Sujet__6B24EA82" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Proprieta__Trans__6A30C649" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Proprieta__Sujet__693CA210" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Proprieta__Trans__68487DD7" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Transacti__Trans__6E01572D" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Transacti__Trans__6EF57B66" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Transacti__Trans__70DDC3D8" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Transacti__MereT__6C190EBB" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Transacti__Trans__6D0D32F4" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__Sujets__National__73BA3083" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__SujetDocu__Sujet__74AE54BC" ManuallyRouted="false" />
+		<AssociationConnector Association="gmaFFFFF.CadastrBenin.DAL.EFModel.FK__SujetDocu__Sujet__75A278F5" ManuallyRouted="false" />
+		<InheritanceConnector EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Personne" ManuallyRouted="false" >
+		</InheritanceConnector>
+		<InheritanceConnector EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Corporation" ManuallyRouted="false" >
+		</InheritanceConnector>
+		<InheritanceConnector EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Parcelle" ManuallyRouted="false" >
+		</InheritanceConnector>
+		<InheritanceConnector EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Immeuble" ManuallyRouted="false" >
+		</InheritanceConnector>
+        <EntityTypeShape EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Parcel_ImmeubleIntersect" Width="1.5" PointX="0.75" PointY="4.75" />
+	  </Diagram>
+	</edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

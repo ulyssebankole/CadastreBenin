@@ -1,0 +1,456 @@
+﻿<Window x:Name="StartWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+		xmlns:local="clr-namespace:gmaFFFFF.CadastrBenin.DesktopApp"
+		xmlns:l="clr-namespace:SearchTextBox;assembly=SearchTextBox"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:command="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
+		x:Class="gmaFFFFF.CadastrBenin.DesktopApp.MainWindow"
+		mc:Ignorable="d"
+		Title="Прототип системы кадастрового учета Республики Бенин" Height="600" Width="900" WindowStartupLocation="CenterScreen" WindowState="Maximized"
+		Icon="img/FlagBenin.ico">
+    <Window.Resources>
+        <local:isLessThanConverter x:Key="IsLessThanConverter"/>
+        <local:isMoreThanConverter x:Key="IsMoreThanConverter"/>
+        <local:isLessAndMoreConverter x:Key="IsLessAndMoreConverter"/>
+        <local:OneYearDateConverter x:Key="OneYearDateConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Path x:Key="SaveIcon"  Data="M29.042969,18.955L23.935974,24.063003 21.518982,21.642006 20.575989,22.583 23.935974,25.942001 29.985962,19.897001z M25.281006,15.865003C28.974976,15.865003 32,18.890005 32,22.583 32,26.277 28.974976,29.302002 25.281006,29.302002 21.588013,29.302002 18.562988,26.277 18.562988,22.583 18.562988,18.890005 21.588013,15.865003 25.281006,15.865003z M16.515991,0L20.190002,0 20.190002,8.1180008 16.515991,8.1180008z M2.5189819,0L6.7879944,0 6.7879944,7.8380025C6.7879944,8.9980028,7.7279968,9.9380014,8.8880005,9.9380014L19.594971,9.9380014C20.755005,9.9380014,21.695007,8.9980028,21.695007,7.8380025L21.695007,0 24.588013,0 28.482971,3.8950015 28.482971,15.188001C27.500977,14.760999 26.419006,14.521002 25.281982,14.521002 20.835999,14.521002 17.219971,18.136999 17.219971,22.583 17.219971,24.768005 18.096008,26.750007 19.513,28.203003L2.5189819,28.203003C1.1279907,28.203003,0,27.076004,0,25.684006L0,2.5190015C0,1.1279986,1.1279907,1.9563436E-07,2.5189819,0z" Stretch="Uniform" Fill="#FF105CFF" Width="26" Height="26" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <TransformGroup.Children>
+                        <RotateTransform Angle="0" />
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </TransformGroup.Children>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path x:Key="UndoIcon" Data="M1.505976,18.60671L10.897846,18.60671C10.366855,19.969696 10.06086,21.445686 10.06086,22.998642 10.06086,24.050629 10.20886,25.066603 10.463854,26.037598L1.505976,26.037598C0.67398662,26.037598,-1.5802016E-07,25.362619,0,24.530632L0,20.118681C-1.5802016E-07,19.280712,0.67398662,18.60671,1.505976,18.60671z M22.309693,13.992798C22.406691,13.989777,22.50569,13.989777,22.604687,13.992798L22.609692,13.992798 22.620693,13.992798C23.871676,14.002777,25.055657,14.268795,26.133639,14.743763L26.168642,14.763783C29.350598,16.17874 31.556568,19.380716 31.520565,23.082655 31.469572,28.05658 27.399628,32.050507 22.425688,31.999512 18.545744,31.958527 15.26679,29.46656 14.041808,26.013611L17.263764,25.452614C18.167752,27.423594 20.143723,28.80257 22.456694,28.827562 25.648651,28.858568 28.257611,26.294613 28.288615,23.102644 28.323611,19.916689 25.760649,17.301739 22.568691,17.270733 22.298691,17.270733 22.032696,17.291729 21.772698,17.321726L21.7677,17.301739C20.90971,17.413736,20.112725,17.715733,19.418734,18.169737L20.52672,19.216717C20.592713,19.277721 20.618714,19.374704 20.582718,19.456703 20.551722,19.543709 20.475718,19.599707 20.383717,19.604712L17.692759,19.747684 15.302793,19.875704 15.287793,19.875704C15.220793,19.875704 15.164794,19.844698 15.118789,19.79871 15.072792,19.747684 15.052796,19.681707 15.067795,19.609686L15.450785,17.480721 16.002779,14.467767C16.017779,14.375788 16.083781,14.303767 16.170777,14.288783 16.262778,14.268795 16.354773,14.303767 16.405773,14.380793L17.288765,15.67777C18.514746,14.794787 19.969729,14.222775 21.547703,14.048797 21.568705,14.043792 21.588701,14.043792 21.608706,14.043792 21.746704,14.028778 21.879698,14.017792 22.017697,14.007782 22.114697,13.999786 22.211695,13.994781 22.309693,13.992798z M1.505976,9.2218437L22.623692,9.2218437C23.456681,9.2218437,24.135672,9.8958454,24.135672,10.732838L24.135672,11.146833C23.47168,11.034835 22.792689,10.962846 22.097698,10.962846 17.778757,10.962846 14.004806,13.240795 11.880835,16.651754L1.505976,16.651754C0.67398662,16.651754,-1.5802016E-07,15.977753,0,15.145765L0,10.732838C-1.5802016E-07,9.8958454,0.67398662,9.2218437,1.505976,9.2218437z M4.4419406,2.0059814C3.4969537,2.0059814 2.7259605,2.7709539 2.7259607,3.7149394 2.7259605,4.6589255 3.4969537,5.4299097 4.4419406,5.4299097 5.3869274,5.4299097 6.1519163,4.6589255 6.1519163,3.7149394 6.1519163,2.7709539 5.3869274,2.0059814 4.4419406,2.0059814z M1.505976,0L22.623692,0C23.456681,0,24.135672,0.67897522,24.135672,1.5109632L24.135672,5.9248972C24.135672,6.7568855,23.456681,7.4308863,22.623692,7.4308863L1.505976,7.4308863C0.67398662,7.4308863,-1.5802016E-07,6.7568855,0,5.9248972L0,1.5109632C-1.5802016E-07,0.67897522,0.67398662,0,1.505976,0z" Stretch="Uniform" Fill="#FF105CFF" Width="26" Height="26" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <TransformGroup.Children>
+                        <RotateTransform Angle="0" />
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </TransformGroup.Children>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+    </Window.Resources>
+    <Window.DataContext>
+        <Binding Source="{StaticResource ViewModelLocator}"/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ToolBarTray Grid.Row="0" IsLocked="True" >
+            <ToolBar x:Name="ApplicationToolbar" IsOverflowOpen="False" DataContext="Map"  >
+                <Button Content="{StaticResource SaveIcon}" Command="{Binding Path=SaveChangesCommand}" ToolTip="Сохранить"/>
+                <Button Content="{StaticResource UndoIcon}" Command="{Binding Path=UndoChangesCommand}" ToolTip="Отменить"/>
+            </ToolBar>
+        </ToolBarTray>
+        <TabControl Grid.Row="1" SelectionChanged="TabControl_OnSelectionChanged" >
+            <TabItem Header="Карта" DataContext="{Binding Map}">
+                <TabItem.Resources>
+                    <DataTemplate x:Key="CadastrDepDataTemplate">
+                        <m:MapPolygon Locations="{Binding}" Stroke="Black" StrokeThickness="4" />
+                    </DataTemplate>
+                    <DataTemplate x:Key="CadastrZoneDataTemplate">
+                        <m:MapPolygon Locations="{Binding}" Stroke="Black" StrokeThickness="3" />
+                    </DataTemplate>
+                    <DataTemplate x:Key="CadastrSectDataTemplate">
+                        <m:MapPolygon Locations="{Binding}" Stroke="Black" StrokeThickness="2" />
+                    </DataTemplate>
+                    <DataTemplate x:Key="ParcelDataTemplate">
+                        <m:MapPolygon Locations="{Binding WgsLocation}" Stroke="Blue" StrokeThickness="1"/>
+                    </DataTemplate>
+                    <DataTemplate x:Key="BuildingDataTemplate">
+                        <m:MapPolygon Locations="{Binding WgsLocation}" Stroke="DimGray" StrokeThickness="1" Fill="Chocolate" Opacity="0.7"/>
+                    </DataTemplate>
+                    <DataTemplate x:Key="ParcelPushPinDataTemplate">
+                        <Button m:MapLayer.Position="{Binding Centroid}" m:MapLayer.PositionOffset="-20,-20" Click="FindParcelPushpinClick" Background = "#01000000" FocusVisualStyle="{x:Null}" BorderBrush="#01000000">
+                            <m:Pushpin ToolTip="{Binding Parcel.NUP}"/>
+                        </Button>
+                    </DataTemplate>
+                </TabItem.Resources>
+                <Grid>
+                    <m:Map x:Name="MyMap" Center="9.5,2" ZoomLevel="6" Mode="AerialWithLabels"
+						CredentialsProvider="AgWqFS9XvqeAnapsHoC36yjUzszJZGLaj_xf-ykwrGlLeBkpgmIQSKH5Bz_JIneX">
+                        <m:MapLayer x:Name="CadDepLayer">
+                            <m:MapLayer.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Value="false">
+                                            <DataTrigger.Binding>
+                                                <MultiBinding Converter="{StaticResource IsLessAndMoreConverter}">
+                                                    <Binding ElementName="MyMap" Path="ZoomLevel"/>
+                                                    <Binding>
+                                                        <Binding.Source>
+                                                            <sys:Int32>5</sys:Int32>
+                                                        </Binding.Source>
+                                                    </Binding>
+                                                    <Binding>
+                                                        <Binding.Source>
+                                                            <sys:Int32>11</sys:Int32>
+                                                        </Binding.Source>
+                                                    </Binding>
+                                                </MultiBinding>
+                                            </DataTrigger.Binding>
+                                            <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </m:MapLayer.Style>
+                            <m:MapItemsControl ItemsSource="{Binding CadDepartamentsLocations}" ItemTemplate="{StaticResource CadastrDepDataTemplate}" />
+                        </m:MapLayer>
+                        <m:MapLayer x:Name="CadZoneLayer">
+                            <m:MapLayer.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Value="false">
+                                            <DataTrigger.Binding>
+                                                <MultiBinding Converter="{StaticResource IsLessAndMoreConverter}">
+                                                    <Binding ElementName="MyMap" Path="ZoomLevel"/>
+                                                    <Binding>
+                                                        <Binding.Source>
+                                                            <sys:Int32>9</sys:Int32>
+                                                        </Binding.Source>
+                                                    </Binding>
+                                                    <Binding>
+                                                        <Binding.Source>
+                                                            <sys:Int32>12</sys:Int32>
+                                                        </Binding.Source>
+                                                    </Binding>
+                                                </MultiBinding>
+                                            </DataTrigger.Binding>
+                                            <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+
+                                    </Style.Triggers>
+                                </Style>
+                            </m:MapLayer.Style>
+                            <m:MapItemsControl ItemsSource="{Binding CadZoneLocations}" ItemTemplate="{StaticResource CadastrZoneDataTemplate}" />
+                        </m:MapLayer>
+                        <m:MapLayer x:Name="CadSectLayer">
+                            <m:MapLayer.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Value="false">
+                                            <DataTrigger.Binding>
+                                                <MultiBinding Converter="{StaticResource IsLessAndMoreConverter}">
+                                                    <Binding ElementName="MyMap" Path="ZoomLevel"/>
+                                                    <Binding>
+                                                        <Binding.Source>
+                                                            <sys:Int32>11</sys:Int32>
+                                                        </Binding.Source>
+                                                    </Binding>
+                                                    <Binding>
+                                                        <Binding.Source>
+                                                            <sys:Int32>16</sys:Int32>
+                                                        </Binding.Source>
+                                                    </Binding>
+                                                </MultiBinding>
+                                            </DataTrigger.Binding>
+                                            <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </m:MapLayer.Style>
+                            <m:MapItemsControl ItemsSource="{Binding CadSectorLocations}" ItemTemplate="{StaticResource CadastrSectDataTemplate}" />
+                        </m:MapLayer>
+                        <m:MapLayer x:Name="FindParcelLayer">
+                            <m:MapLayer.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Value="true" Binding="{Binding ElementName=MyMap, Path=ZoomLevel, Converter={StaticResource IsLessThanConverter}, ConverterParameter=15}" >
+                                            <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </m:MapLayer.Style>
+                            <m:MapItemsControl ItemsSource="{Binding FindParcels}" ItemTemplate="{StaticResource ParcelDataTemplate}"/>
+                        </m:MapLayer>
+                        <m:MapLayer x:Name="FindBuildingLayer">
+                            <m:MapLayer.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Value="true" Binding="{Binding ElementName=MyMap, Path=ZoomLevel, Converter={StaticResource IsLessThanConverter}, ConverterParameter=18}" >
+                                            <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </m:MapLayer.Style>
+                            <m:MapItemsControl ItemsSource="{Binding FindBuildings}" ItemTemplate="{StaticResource BuildingDataTemplate}"/>
+                        </m:MapLayer>
+                        <m:MapLayer x:Name="FindParcelPushpinLayer">
+                            <m:MapItemsControl ItemsSource="{Binding FindParcels}" ItemTemplate="{StaticResource ParcelPushPinDataTemplate}"></m:MapItemsControl>
+                        </m:MapLayer>
+                        <m:MapPolygon x:Name="SelectFindParcel"  Locations="{Binding ElementName=FindParcels, Path=SelectedItem.WgsLocation}" Stroke="Red" StrokeThickness="1"/>
+                    </m:Map>
+
+                    <StackPanel ToolTip="Масштаб" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10,40">
+                        <Slider x:Name="ZoomBar" Minimum="1" Maximum="21" Orientation="Vertical" Height="200" Ticks="21" IsDirectionReversed="True"
+							TickFrequency="1" Value="{Binding ZoomLevel, ElementName=MyMap}"/>
+                        <TextBlock Text="{Binding ZoomLevel, ElementName=MyMap}" Width="30" Margin="0,10"/>
+                    </StackPanel>
+                    <Expander ToolTip="Подложка" ExpandDirection="Right" Background="White" HorizontalAlignment="Right" Opacity=".7" VerticalAlignment="Top" Margin="2" Padding="1" VerticalContentAlignment="Center" IsExpanded="True">
+                        <StackPanel Orientation="Horizontal" >
+                            <RadioButton GroupName="MapType" Content="Road" Tag="road" Click="MapTypeSelected"/>
+                            <RadioButton GroupName="MapType" Content="Aerial" Tag="aerial" Click="MapTypeSelected"/>
+                            <RadioButton GroupName="MapType" Content="Hybrid" Tag="hybrid" Click="MapTypeSelected" IsChecked="True" />
+                        </StackPanel>
+                    </Expander>
+                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="150" Margin="2" Orientation="Vertical" Background="{x:Static SystemColors.ControlBrush}" Opacity=".8">
+                        <l:SearchTextBox Prompt="Поиск..." x:Name="SearchTextBox"  SearchMode="Regular" AllowEmptySearches="False"
+                                         Command="{Binding FindParcelCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Text}">
+                        </l:SearchTextBox>
+                        <ListBox x:Name="FindParcels" ItemsSource="{Binding FindParcels}" DisplayMemberPath="Parcel.NUP" SelectionChanged="FindParcels_OnSelectionChanged" 
+                                 ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                 MaxHeight="200">
+                            <ListBox.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <Trigger Property="ListBox.HasItems" Value="false">
+                                            <Setter Property="ListBox.Visibility" Value="Collapsed"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListBox.Style>
+                        </ListBox>
+                        <Button Content="Очистить" Command="{Binding ClearFindedParcelCommand}" HorizontalAlignment="Right" Margin="0,2,0,2" Visibility="{Binding ElementName=FindParcels, Path=Visibility}"/>
+                    </StackPanel>
+                    <Popup DataContext="{Binding ElementName=FindParcels, Path=SelectedItem}" x:Name="FindParcelDetail" PopupAnimation="Slide" StaysOpen="False" Placement="Mouse" >
+                        <Border Background="{x:Static SystemColors.ControlBrush}" Padding="5" CornerRadius="10" MaxHeight="300">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <StackPanel >
+                                    <TextBlock Text="{Binding Parcel.NUP, StringFormat=Земельный участок {0}}" HorizontalAlignment="Stretch" Grid.Row="0" Grid.ColumnSpan="3" FontSize="14" Background="{x:Static SystemColors.ActiveCaptionBrush}"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="15"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="Использование" Grid.Row="0" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding LastUtilisation, TargetNullValue=-, Mode=OneWay}" Grid.Row="0" Grid.Column="2"/>
+                                        <TextBlock Text="Площадь" Grid.Row="1" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding Path=Area, Mode=OneWay}" Grid.Row="1" Grid.Column="2"/>
+                                        <TextBlock Text="Налог" Grid.Row="2" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding LastImpot, TargetNullValue=-, Mode=OneWay}" Grid.Row="2" Grid.Column="2"/>
+                                        <TextBlock Text="Кол-во ОКС" Grid.Row="3" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding BuildingCount}" Grid.Row="3" Grid.Column="2"/>
+                                    </Grid>
+                                    <StackPanel>
+                                        <TextBlock Text="Негативные явления" FontWeight="Bold"  HorizontalAlignment="Center" />
+                                        <ListView ItemsSource="{Binding Sinistrees}">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridView.Columns>
+                                                        <GridViewColumn Header="Наименование" DisplayMemberBinding="{Binding SinistreeTypeNom}"/>
+                                                        <GridViewColumn Header="Влияние" DisplayMemberBinding="{Binding Influence}"/>
+                                                        <GridViewColumn Header="Коэффициент" DisplayMemberBinding="{Binding InfluenceCoefficient}"/>
+                                                        <GridViewColumn Header="Площадь" DisplayMemberBinding="{Binding Area, StringFormat={}{0:N0}}"/>
+                                                    </GridView.Columns>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                        <TextBlock Text="{Binding SinistreeInfluence, StringFormat=Коэффициент за негативные явления: {0:N2}}"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="Сведения о правообладателях" FontWeight="Bold"  HorizontalAlignment="Center" />
+                                        <ListView ItemsSource="{Binding Rights}">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridView.Columns>
+                                                        <GridViewColumn Header="Вид права" DisplayMemberBinding="{Binding JuridiqueTypeNom}"/>
+                                                        <GridViewColumn Header="Правообладатель" DisplayMemberBinding="{Binding Nom}"/>
+                                                        <GridViewColumn Header="Примечание" DisplayMemberBinding="{Binding Observations, TargetNullValue=-}"/>
+                                                    </GridView.Columns>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </StackPanel>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Border>
+                    </Popup>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Справочники" DataContext="{Binding Reference}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" >
+                    <StackPanel>
+                        <Expander Header="Стихийные бедствия" IsExpanded="False">
+                            <DataGrid ItemsSource="{Binding SinistreeTypes}" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Nom}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Expander>
+                        <Expander Header="Удостоверяющий документ" IsExpanded="False">
+                            <DataGrid ItemsSource="{Binding CertificationDocTypes}" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Nom}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Expander>
+                        <Expander Header="Документы субъекта" IsExpanded="False">
+                            <DataGrid ItemsSource="{Binding SujetDocumentTypes}" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Nom}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Expander>
+                        <Expander Header="Виды разрешенных использований" IsExpanded="False">
+                            <DataGrid ItemsSource="{Binding UtilisationTypes}" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Nom}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Expander>
+                        <Expander Header="Страны" IsExpanded="False">
+                            <ScrollViewer Height="200">
+                                <DataGrid ItemsSource="{Binding Etats}" AutoGenerateColumns="False">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding Nom}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </ScrollViewer>
+                        </Expander>
+                        <Expander Header="Виды прав" IsExpanded="False">
+                            <DataGrid ItemsSource="{Binding JuridiqueTypes}" AutoGenerateColumns="False" SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Nom}" Width="*"/>
+                                </DataGrid.Columns>
+                                <DataGrid.RowDetailsTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="5" Padding="5">
+                                            <StackPanel>
+                                                <TextBlock Text="Возникает в следующих сделках:"/>
+                                                <DataGrid AutoGenerateColumns="False" HorizontalAlignment="Left"
+													ItemsSource="{Binding SelectedItem.TransactionTypes, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" >
+                                                    <DataGrid.Columns>
+                                                        <DataGridTextColumn Binding="{Binding Nom}" Width="Auto"/>
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGrid.RowDetailsTemplate>
+                            </DataGrid>
+                        </Expander>
+                        <Expander Header="Единицы кадастрового деления" IsExpanded="False">
+                            <DataGrid ItemsSource="{Binding CadastraleDivisions}" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Numero}" Width="Auto" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Nom}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Expander>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Редактор участков" DataContext="{Binding ParcelEditor}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <DataGrid x:Name="Parcels" DataContext="{Binding ParcelsViewSource}" ItemsSource="{Binding}" EnableRowVirtualization="true" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding CadSecteurNumero}" Header="Номер района"/>
+                            <DataGridTextColumn Binding="{Binding ParcelleSurCadSecteurNumero}" Header="Номер участка"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Column="2" DataContext="{Binding ParcelsViewSource}">
+                        <TextBlock Text="Разрешенное использование" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <DataGrid ItemsSource="{Binding Utilisations}" EnableRowVirtualization="true" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Дата">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Date, StringFormat={}{0:yyyy.MM.dd}, Converter={StaticResource OneYearDateConverter}}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <DatePicker SelectedDate="{Binding Date, Converter={StaticResource OneYearDateConverter}, TargetNullValue=sys:DateTime.Now}" SelectedDateFormat="Short" DisplayDateStart="1/1/1900" IsTodayHighlighted="True"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Документ основание" Binding="{Binding Document}"/>
+                                <DataGridComboBoxColumn Header="Вид использования"
+                                    SelectedValueBinding="{Binding UtilisationTypeNom}"
+                                    ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=ParcelEditor.UtilisationTypes}"
+                                    DisplayMemberPath="Nom"
+                                    SelectedValuePath="Nom" />
+                                
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <TextBlock Text="Налоги" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <DataGrid ItemsSource="{Binding Impots}" EnableRowVirtualization="true" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Дата">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Date, StringFormat={}{0:yyyy.MM.dd}, Converter={StaticResource OneYearDateConverter}}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <DatePicker SelectedDate="{Binding Date, Converter={StaticResource OneYearDateConverter}, TargetNullValue=sys:DateTime.Now}" SelectedDateFormat="Short" DisplayDateStart="1/1/1900" IsTodayHighlighted="True"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Документ основание" Binding="{Binding Document}"/>
+                                <DataGridTextColumn Header="Размер платежа" Binding="{Binding Somme}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <TextBlock Text="Выданные документы" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <DataGrid ItemsSource="{Binding CertificationDocuments}" EnableRowVirtualization="true" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Дата">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Date, StringFormat={}{0:yyyy.MM.dd}, Converter={StaticResource OneYearDateConverter}}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <DatePicker SelectedDate="{Binding Date, Converter={StaticResource OneYearDateConverter}, TargetNullValue=sys:DateTime.Now}" SelectedDateFormat="Short" DisplayDateStart="1/1/1900" IsTodayHighlighted="True"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Номер документа" Binding="{Binding Num}"/>
+                                <DataGridComboBoxColumn Header="Вид документа"
+                                    SelectedValueBinding="{Binding CertificationDocumentTypeNom}"
+                                    ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=ParcelEditor.CertificationDocumentTypes}"
+                                    DisplayMemberPath="Nom"
+                                    SelectedValuePath="Nom" />
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>

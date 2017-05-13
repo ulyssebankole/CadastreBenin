@@ -1,0 +1,2041 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+	<!-- SSDL content -->
+	<edmx:StorageModels>
+	<Schema Namespace="Хранилище gmaFFFFF.CadastrBenin.DAL.EFModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6005: Тип данных "hierarchyid" в настоящее время не поддерживается для целевой версии платформы Entity Framework; столбец "Hierarchie" в таблице "CadastrBenin.Cadastre.CadastraleDivisions" был исключен.
+предупреждение 6005: Тип данных "hierarchyid" в настоящее время не поддерживается для целевой версии платформы Entity Framework; столбец "Mere" в таблице "CadastrBenin.Cadastre.CadastraleDivisions" был исключен.-->
+        <EntityType Name="CadastraleDivisions">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="varchar" MaxLength="8" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="100" />
+          <Property Name="Id" Type="tinyint" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Niveau" Type="smallint" StoreGeneratedPattern="Computed" />
+          <Property Name="Shape" Type="geometry" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CertificationDocuments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParcelleGUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CertificationDocumentTypeNom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Num" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="CertificationDocumentTypes">
+          <Key>
+            <PropertyRef Name="Nom" />
+          </Key>
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Immeubles">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="NUP" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="ParcelleNUP" Type="varchar" MaxLength="25" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="ImmeubleSurParcelleNumero" Type="varchar" MaxLength="25" StoreGeneratedPattern="Computed" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="100" />
+          <Property Name="PiecesNombre" Type="smallint" />
+          <Property Name="EtagesNombre" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="Impots">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParcelleGUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Somme" Type="decimal" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="Document" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JuridiqueObjets">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="JuridiqueObjetTypeNom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CadSecteurNumero" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Shape" Type="geometry" />
+          <Property Name="Superficie" Type="float" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Parcelles">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ParcelleSurCadSecteurNumero" Type="int" StoreGeneratedPattern="Computed" />
+          <Property Name="NUP" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="SiArpentageFrontiere" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SinistreeRegions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SinistreeTypeNom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Influence" Type="nvarchar" MaxLength="25" />
+          <Property Name="InfluenceCoefficient" Type="float" />
+          <Property Name="Shape" Type="geometry" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SinistreeTypes">
+          <Key>
+            <PropertyRef Name="Nom" />
+          </Key>
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Utilisations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UtilisationTypeNom" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="JuridiqueObjetGUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Document" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UtilisationTypes">
+          <Key>
+            <PropertyRef Name="Nom" />
+          </Key>
+          <Property Name="Nom" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JuridiqueTypes">
+          <Key>
+            <PropertyRef Name="Nom" />
+          </Key>
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProprietaireAncien">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TransactionGUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SujetGUID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProprietairePresume">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TransactionGUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SujetGUID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransactionDocuments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TransactionDocumentTypeNom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Num" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="TransactionDocumentTypes">
+          <Key>
+            <PropertyRef Name="Nom" />
+          </Key>
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransactionObjets">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JuridiqueObjetGUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TransactionGUID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transactions">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MereTransactionGUID" Type="uniqueidentifier" />
+          <Property Name="TransactionTypeNom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TransactionDocumentId" Type="int" Nullable="false" />
+          <Property Name="DebutDate" Type="date" Nullable="false" />
+          <Property Name="FinDate" Type="date" />
+          <Property Name="Observations" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="TransactionTypes">
+          <Key>
+            <PropertyRef Name="Nom" />
+          </Key>
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="JuridiqueTypeNom" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Corporations">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Etats">
+          <Key>
+            <PropertyRef Name="Nom" />
+          </Key>
+          <Property Name="Nom" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Personnes">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prenoms" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Sexe" Type="bit" />
+          <Property Name="NaissanceLieu" Type="nvarchar" MaxLength="50" />
+          <Property Name="NaissanceDate" Type="date" />
+          <Property Name="Profession" Type="nvarchar" MaxLength="50" />
+          <Property Name="NomEtPrenome" Type="nvarchar" MaxLength="201" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SujetDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SujetGUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SujetDocumentTypeNom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Num" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="SujetDocumentTypes">
+          <Key>
+            <PropertyRef Name="Nom" />
+          </Key>
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sujets">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SujetTypeNom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nationalite" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Telephone" Type="varchar" MaxLength="30" />
+          <Property Name="Adresse" Type="nvarchar" MaxLength="200" />
+          <Property Name="BP" Type="nvarchar" MaxLength="200" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6005: Тип данных "hierarchyid" в настоящее время не поддерживается для целевой версии платформы Entity Framework; столбец "Mere" в таблице "CadastrBenin.Cadastre.CadastraleDepartements_v" был исключен.
+предупреждение 6002: В таблице или представлении "CadastrBenin.Cadastre.CadastraleDepartements_v" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="CadastraleDepartements_v">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Id" Type="tinyint" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="100" />
+          <Property Name="Shape" Type="geometry" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6005: Тип данных "hierarchyid" в настоящее время не поддерживается для целевой версии платформы Entity Framework; столбец "Mere" в таблице "CadastrBenin.Cadastre.CadastraleSecteurs_v" был исключен.
+предупреждение 6002: В таблице или представлении "CadastrBenin.Cadastre.CadastraleSecteurs_v" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="CadastraleSecteurs_v">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Id" Type="tinyint" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="100" />
+          <Property Name="Shape" Type="geometry" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6005: Тип данных "hierarchyid" в настоящее время не поддерживается для целевой версии платформы Entity Framework; столбец "Mere" в таблице "CadastrBenin.Cadastre.CadastraleZones_v" был исключен.
+предупреждение 6002: В таблице или представлении "CadastrBenin.Cadastre.CadastraleZones_v" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="CadastraleZones_v">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Id" Type="tinyint" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="100" />
+          <Property Name="Shape" Type="geometry" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "CadastrBenin.Cadastre.Immeubles_Parcelles_v" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Immeubles_Parcelles_v">
+          <Key>
+            <PropertyRef Name="ParcelNUP" />
+          </Key>
+          <Property Name="ParcelNUP" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="ImmeublesCount" Type="int" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "CadastrBenin.Cadastre.Immeubles_v" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Immeubles_v">
+          <Key>
+            <PropertyRef Name="NUP" />
+          </Key>
+          <Property Name="NUP" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="100" />
+          <Property Name="PiecesNombre" Type="smallint" />
+          <Property Name="EtagesNombre" Type="tinyint" />
+          <Property Name="Shape" Type="geometry" />
+          <Property Name="Superficie" Type="float" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "CadastrBenin.Cadastre.Parcel_ImmeubleIntersect" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Parcel_ImmeubleIntersect">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="ParcelNUP" />
+            <PropertyRef Name="ImmeubleNUP" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="ParcelNUP" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="ImmeubleNUP" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="ParcelShape" Type="geometry" />
+          <Property Name="ImmeubleShape" Type="geometry" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "CadastrBenin.Cadastre.Parcelles_v" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Parcelles_v">
+          <Key>
+            <PropertyRef Name="NUP" />
+            <PropertyRef Name="SiArpentageFrontiere" />
+          </Key>
+          <Property Name="NUP" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="SiArpentageFrontiere" Type="bit" Nullable="false" />
+          <Property Name="Shape" Type="geometry" />
+          <Property Name="Superficie" Type="float" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "CadastrBenin.Cadastre.Sinestree_Parcelles_v" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Sinestree_Parcelles_v">
+          <Key>
+            <PropertyRef Name="NUP" />
+            <PropertyRef Name="SinistreeTypeNom" />
+          </Key>
+          <Property Name="NUP" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="SinistreeTypeNom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Influence" Type="nvarchar" MaxLength="25" />
+          <Property Name="InfluenceCoefficient" Type="float" />
+          <Property Name="Area" Type="float" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "CadastrBenin.Juridique.JuridiqueSituations_v" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="JuridiqueSituations_v">
+          <Key>
+            <PropertyRef Name="NUP" />
+            <PropertyRef Name="JuridiqueTypeNom" />
+            <PropertyRef Name="ProprietarePresume" />
+            <PropertyRef Name="Nom" />
+          </Key>
+          <Property Name="NUP" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="JuridiqueTypeNom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProprietarePresume" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="201" Nullable="false" />
+          <Property Name="Observations" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <Association Name="FK__Certifica__Certi__6477ECF3">
+          <End Role="CertificationDocumentTypes" Type="Self.CertificationDocumentTypes" Multiplicity="1" />
+          <End Role="CertificationDocuments" Type="Self.CertificationDocuments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CertificationDocumentTypes">
+              <PropertyRef Name="Nom" />
+            </Principal>
+            <Dependent Role="CertificationDocuments">
+              <PropertyRef Name="CertificationDocumentTypeNom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Certifica__Parce__1AD3FDA4">
+          <End Role="Parcelles" Type="Self.Parcelles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CertificationDocuments" Type="Self.CertificationDocuments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parcelles">
+              <PropertyRef Name="GUID" />
+            </Principal>
+            <Dependent Role="CertificationDocuments">
+              <PropertyRef Name="ParcelleGUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Corporatio__GUID__76969D2E">
+          <End Role="Sujets" Type="Self.Sujets" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Corporations" Type="Self.Corporations" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Sujets">
+              <PropertyRef Name="GUID" />
+            </Principal>
+            <Dependent Role="Corporations">
+              <PropertyRef Name="GUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Immeubles__GUID__19DFD96B">
+          <End Role="JuridiqueObjets" Type="Self.JuridiqueObjets" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Immeubles" Type="Self.Immeubles" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="JuridiqueObjets">
+              <PropertyRef Name="GUID" />
+            </Principal>
+            <Dependent Role="Immeubles">
+              <PropertyRef Name="GUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Impots__Parcelle__18EBB532">
+          <End Role="Parcelles" Type="Self.Parcelles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Impots" Type="Self.Impots" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parcelles">
+              <PropertyRef Name="GUID" />
+            </Principal>
+            <Dependent Role="Impots">
+              <PropertyRef Name="ParcelleGUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Juridique__CadSe__06CD04F7">
+          <End Role="CadastraleDivisions" Type="Self.CadastraleDivisions" Multiplicity="1" />
+          <End Role="JuridiqueObjets" Type="Self.JuridiqueObjets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CadastraleDivisions">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="JuridiqueObjets">
+              <PropertyRef Name="CadSecteurNumero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Parcelles__GUID__1BC821DD">
+          <End Role="JuridiqueObjets" Type="Self.JuridiqueObjets" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Parcelles" Type="Self.Parcelles" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="JuridiqueObjets">
+              <PropertyRef Name="GUID" />
+            </Principal>
+            <Dependent Role="Parcelles">
+              <PropertyRef Name="GUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Personnes__GUID__75A278F5">
+          <End Role="Sujets" Type="Self.Sujets" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Personnes" Type="Self.Personnes" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Sujets">
+              <PropertyRef Name="GUID" />
+            </Principal>
+            <Dependent Role="Personnes">
+              <PropertyRef Name="GUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Proprieta__Sujet__68487DD7">
+          <End Role="Sujets" Type="Self.Sujets" Multiplicity="1" />
+          <End Role="ProprietairePresume" Type="Self.ProprietairePresume" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sujets">
+              <PropertyRef Name="GUID" />
+            </Principal>
+            <Dependent Role="ProprietairePresume">
+              <PropertyRef Name="SujetGUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Proprieta__Sujet__6A30C649">
+          <End Role="Sujets" Type="Self.Sujets" Multiplicity="1" />
+          <End Role="ProprietaireAncien" Type="Self.ProprietaireAncien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sujets">
+              <PropertyRef Name="GUID" />
+            </Principal>
+            <Dependent Role="ProprietaireAncien">
+              <PropertyRef Name="SujetGUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Proprieta__Trans__6754599E">
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProprietairePresume" Type="Self.ProprietairePresume" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transactions">
+              <PropertyRef Name="GUID" />
+            </Principal>
+            <Dependent Role="ProprietairePresume">
+              <PropertyRef Name="TransactionGUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Proprieta__Trans__693CA210">
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProprietaireAncien" Type="Self.ProprietaireAncien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transactions">
+              <PropertyRef Name="GUID" />
+            </Principal>
+            <Dependent Role="ProprietaireAncien">
+              <PropertyRef Name="TransactionGUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Sinistree__Sinis__66603565">
+          <End Role="SinistreeTypes" Type="Self.SinistreeTypes" Multiplicity="1" />
+          <End Role="SinistreeRegions" Type="Self.SinistreeRegions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SinistreeTypes">
+              <PropertyRef Name="Nom" />
+            </Principal>
+            <Dependent Role="SinistreeRegions">
+              <PropertyRef Name="SinistreeTypeNom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SujetDocu__Sujet__73BA3083">
+          <End Role="Sujets" Type="Self.Sujets" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SujetDocument" Type="Self.SujetDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sujets">
+              <PropertyRef Name="GUID" />
+            </Principal>
+            <Dependent Role="SujetDocument">
+              <PropertyRef Name="SujetGUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SujetDocu__Sujet__74AE54BC">
+          <End Role="SujetDocumentTypes" Type="Self.SujetDocumentTypes" Multiplicity="1" />
+          <End Role="SujetDocument" Type="Self.SujetDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SujetDocumentTypes">
+              <PropertyRef Name="Nom" />
+            </Principal>
+            <Dependent Role="SujetDocument">
+              <PropertyRef Name="SujetDocumentTypeNom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Sujets__National__72C60C4A">
+          <End Role="Etats" Type="Self.Etats" Multiplicity="1" />
+          <End Role="Sujets" Type="Self.Sujets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Etats">
+              <PropertyRef Name="Nom" />
+            </Principal>
+            <Dependent Role="Sujets">
+              <PropertyRef Name="Nationalite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Jurid__6EF57B66">
+          <End Role="JuridiqueTypes" Type="Self.JuridiqueTypes" Multiplicity="1" />
+          <End Role="TransactionTypes" Type="Self.TransactionTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JuridiqueTypes">
+              <PropertyRef Name="Nom" />
+            </Principal>
+            <Dependent Role="TransactionTypes">
+              <PropertyRef Name="JuridiqueTypeNom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Jurid__70DDC3D8">
+          <End Role="JuridiqueObjets" Type="Self.JuridiqueObjets" Multiplicity="1" />
+          <End Role="TransactionObjets" Type="Self.TransactionObjets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JuridiqueObjets">
+              <PropertyRef Name="GUID" />
+            </Principal>
+            <Dependent Role="TransactionObjets">
+              <PropertyRef Name="JuridiqueObjetGUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__MereT__6B24EA82">
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="0..1" />
+          <End Role="Transactions1" Type="Self.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transactions">
+              <PropertyRef Name="GUID" />
+            </Principal>
+            <Dependent Role="Transactions1">
+              <PropertyRef Name="MereTransactionGUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Trans__6C190EBB">
+          <End Role="TransactionTypes" Type="Self.TransactionTypes" Multiplicity="1" />
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionTypes">
+              <PropertyRef Name="Nom" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="TransactionTypeNom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Trans__6D0D32F4">
+          <End Role="TransactionDocuments" Type="Self.TransactionDocuments" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionDocuments">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="TransactionDocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Trans__6E01572D">
+          <End Role="TransactionDocumentTypes" Type="Self.TransactionDocumentTypes" Multiplicity="1" />
+          <End Role="TransactionDocuments" Type="Self.TransactionDocuments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionDocumentTypes">
+              <PropertyRef Name="Nom" />
+            </Principal>
+            <Dependent Role="TransactionDocuments">
+              <PropertyRef Name="TransactionDocumentTypeNom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Trans__6FE99F9F">
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TransactionObjets" Type="Self.TransactionObjets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transactions">
+              <PropertyRef Name="GUID" />
+            </Principal>
+            <Dependent Role="TransactionObjets">
+              <PropertyRef Name="TransactionGUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Utilisati__Jurid__628FA481">
+          <End Role="JuridiqueObjets" Type="Self.JuridiqueObjets" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Utilisations" Type="Self.Utilisations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JuridiqueObjets">
+              <PropertyRef Name="GUID" />
+            </Principal>
+            <Dependent Role="Utilisations">
+              <PropertyRef Name="JuridiqueObjetGUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Utilisati__Utili__6383C8BA">
+          <End Role="UtilisationTypes" Type="Self.UtilisationTypes" Multiplicity="1" />
+          <End Role="Utilisations" Type="Self.Utilisations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UtilisationTypes">
+              <PropertyRef Name="Nom" />
+            </Principal>
+            <Dependent Role="Utilisations">
+              <PropertyRef Name="UtilisationTypeNom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AsciiLetter2IntNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cadastre" ReturnType="int">
+          <Parameter Name="asciiLetter" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="AssignCadastralNumberBuilding" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cadastre" ReturnType="varchar">
+          <Parameter Name="borderPgn" Type="geometry" Mode="In" />
+        </Function>
+        <Function Name="AssignCadastralNumberParcel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cadastre" ReturnType="varchar">
+          <Parameter Name="borderPgn" Type="geometry" Mode="In" />
+        </Function>
+        <Function Name="CadastrDevisionHierarchyid2Name" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cadastre" ReturnType="varchar" />
+        <Function Name="ExtractBuildingNumberInParcel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cadastre" ReturnType="varchar">
+          <Parameter Name="buildCadNumber" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ExtractCadSectorNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cadastre" ReturnType="varchar">
+          <Parameter Name="JurObjectCadNumber" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ExtractParcelCadastralNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cadastre" ReturnType="varchar">
+          <Parameter Name="buildCadNumber" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ExtractParcelNumberInCadSector" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cadastre" ReturnType="int">
+          <Parameter Name="parcelCadNumber" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="FindParentCadSector" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cadastre" ReturnType="varchar">
+          <Parameter Name="borderPgn" Type="geometry" Mode="In" />
+        </Function>
+        <Function Name="FindParentParcel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cadastre" ReturnType="varchar">
+          <Parameter Name="borderPgn" Type="geometry" Mode="In" />
+        </Function>
+        <Function Name="GenerateNextBuildingNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cadastre" ReturnType="int">
+          <Parameter Name="parcelCadastralNumber" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GenerateNextParcelNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cadastre" ReturnType="int">
+          <Parameter Name="sectorNumber" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="IntNumber2AsciiLetter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cadastre" ReturnType="varchar">
+          <Parameter Name="intNumber" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ParseCadastralNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="Cadastre">
+          <Parameter Name="cadNumber" Type="varchar" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="DepartmentInd" Type="tinyint" />
+                <Property Name="ZoneInd" Type="tinyint" />
+                <Property Name="SectorInd" Type="tinyint" />
+                <Property Name="ParcelInd" Type="int" />
+                <Property Name="BuildingInd" Type="int" />
+                <Property Name="ZoneNum" Type="char" MaxLength="5" />
+                <Property Name="SectorNum" Type="char" MaxLength="8" />
+                <Property Name="ParcelNum" Type="varchar" MaxLength="25" />
+                <Property Name="BuildingNum" Type="varchar" MaxLength="30" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <EntityContainer Name="Хранилище gmaFFFFFCadastrBeninDALEFModelContainer">
+          <EntitySet Name="CadastraleDivisions" EntityType="Self.CadastraleDivisions" Schema="Cadastre" store:Type="Tables" />
+          <EntitySet Name="CertificationDocuments" EntityType="Self.CertificationDocuments" Schema="Cadastre" store:Type="Tables" />
+          <EntitySet Name="CertificationDocumentTypes" EntityType="Self.CertificationDocumentTypes" Schema="Cadastre" store:Type="Tables" />
+          <EntitySet Name="Immeubles" EntityType="Self.Immeubles" Schema="Cadastre" store:Type="Tables" />
+          <EntitySet Name="Impots" EntityType="Self.Impots" Schema="Cadastre" store:Type="Tables" />
+          <EntitySet Name="JuridiqueObjets" EntityType="Self.JuridiqueObjets" Schema="Cadastre" store:Type="Tables" />
+          <EntitySet Name="Parcelles" EntityType="Self.Parcelles" Schema="Cadastre" store:Type="Tables" />
+          <EntitySet Name="SinistreeRegions" EntityType="Self.SinistreeRegions" Schema="Cadastre" store:Type="Tables" />
+          <EntitySet Name="SinistreeTypes" EntityType="Self.SinistreeTypes" Schema="Cadastre" store:Type="Tables" />
+          <EntitySet Name="Utilisations" EntityType="Self.Utilisations" Schema="Cadastre" store:Type="Tables" />
+          <EntitySet Name="UtilisationTypes" EntityType="Self.UtilisationTypes" Schema="Cadastre" store:Type="Tables" />
+          <EntitySet Name="JuridiqueTypes" EntityType="Self.JuridiqueTypes" Schema="Juridique" store:Type="Tables" />
+          <EntitySet Name="ProprietaireAncien" EntityType="Self.ProprietaireAncien" Schema="Juridique" store:Type="Tables" />
+          <EntitySet Name="ProprietairePresume" EntityType="Self.ProprietairePresume" Schema="Juridique" store:Type="Tables" />
+          <EntitySet Name="TransactionDocuments" EntityType="Self.TransactionDocuments" Schema="Juridique" store:Type="Tables" />
+          <EntitySet Name="TransactionDocumentTypes" EntityType="Self.TransactionDocumentTypes" Schema="Juridique" store:Type="Tables" />
+          <EntitySet Name="TransactionObjets" EntityType="Self.TransactionObjets" Schema="Juridique" store:Type="Tables" />
+          <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="Juridique" store:Type="Tables" />
+          <EntitySet Name="TransactionTypes" EntityType="Self.TransactionTypes" Schema="Juridique" store:Type="Tables" />
+          <EntitySet Name="Corporations" EntityType="Self.Corporations" Schema="Sujet" store:Type="Tables" />
+          <EntitySet Name="Etats" EntityType="Self.Etats" Schema="Sujet" store:Type="Tables" />
+          <EntitySet Name="Personnes" EntityType="Self.Personnes" Schema="Sujet" store:Type="Tables" />
+          <EntitySet Name="SujetDocument" EntityType="Self.SujetDocument" Schema="Sujet" store:Type="Tables" />
+          <EntitySet Name="SujetDocumentTypes" EntityType="Self.SujetDocumentTypes" Schema="Sujet" store:Type="Tables" />
+          <EntitySet Name="Sujets" EntityType="Self.Sujets" Schema="Sujet" store:Type="Tables" />
+          <EntitySet Name="CadastraleDepartements_v" EntityType="Self.CadastraleDepartements_v" store:Type="Views" store:Schema="Cadastre">
+            <DefiningQuery>SELECT 
+    [CadastraleDepartements_v].[Numero] AS [Numero], 
+    [CadastraleDepartements_v].[Id] AS [Id], 
+    [CadastraleDepartements_v].[Nom] AS [Nom], 
+    [CadastraleDepartements_v].[Shape] AS [Shape]
+    FROM [Cadastre].[CadastraleDepartements_v] AS [CadastraleDepartements_v]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CadastraleSecteurs_v" EntityType="Self.CadastraleSecteurs_v" store:Type="Views" store:Schema="Cadastre">
+            <DefiningQuery>SELECT 
+    [CadastraleSecteurs_v].[Numero] AS [Numero], 
+    [CadastraleSecteurs_v].[Id] AS [Id], 
+    [CadastraleSecteurs_v].[Nom] AS [Nom], 
+    [CadastraleSecteurs_v].[Shape] AS [Shape]
+    FROM [Cadastre].[CadastraleSecteurs_v] AS [CadastraleSecteurs_v]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CadastraleZones_v" EntityType="Self.CadastraleZones_v" store:Type="Views" store:Schema="Cadastre">
+            <DefiningQuery>SELECT 
+    [CadastraleZones_v].[Numero] AS [Numero], 
+    [CadastraleZones_v].[Id] AS [Id], 
+    [CadastraleZones_v].[Nom] AS [Nom], 
+    [CadastraleZones_v].[Shape] AS [Shape]
+    FROM [Cadastre].[CadastraleZones_v] AS [CadastraleZones_v]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Immeubles_Parcelles_v" EntityType="Self.Immeubles_Parcelles_v" store:Type="Views" store:Schema="Cadastre">
+            <DefiningQuery>SELECT 
+    [Immeubles_Parcelles_v].[ParcelNUP] AS [ParcelNUP], 
+    [Immeubles_Parcelles_v].[ImmeublesCount] AS [ImmeublesCount]
+    FROM [Cadastre].[Immeubles_Parcelles_v] AS [Immeubles_Parcelles_v]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Immeubles_v" EntityType="Self.Immeubles_v" store:Type="Views" store:Schema="Cadastre">
+            <DefiningQuery>SELECT 
+    [Immeubles_v].[NUP] AS [NUP], 
+    [Immeubles_v].[Nom] AS [Nom], 
+    [Immeubles_v].[PiecesNombre] AS [PiecesNombre], 
+    [Immeubles_v].[EtagesNombre] AS [EtagesNombre], 
+    [Immeubles_v].[Shape] AS [Shape], 
+    [Immeubles_v].[Superficie] AS [Superficie]
+    FROM [Cadastre].[Immeubles_v] AS [Immeubles_v]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Parcel_ImmeubleIntersect" EntityType="Self.Parcel_ImmeubleIntersect" store:Type="Views" store:Schema="Cadastre">
+            <DefiningQuery>SELECT 
+    [Parcel_ImmeubleIntersect].[Id] AS [Id], 
+    [Parcel_ImmeubleIntersect].[ParcelNUP] AS [ParcelNUP], 
+    [Parcel_ImmeubleIntersect].[ImmeubleNUP] AS [ImmeubleNUP], 
+    [Parcel_ImmeubleIntersect].[ParcelShape] AS [ParcelShape], 
+    [Parcel_ImmeubleIntersect].[ImmeubleShape] AS [ImmeubleShape]
+    FROM [Cadastre].[Parcel_ImmeubleIntersect] AS [Parcel_ImmeubleIntersect]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Parcelles_v" EntityType="Self.Parcelles_v" store:Type="Views" store:Schema="Cadastre">
+            <DefiningQuery>SELECT 
+    [Parcelles_v].[NUP] AS [NUP], 
+    [Parcelles_v].[SiArpentageFrontiere] AS [SiArpentageFrontiere], 
+    [Parcelles_v].[Shape] AS [Shape], 
+    [Parcelles_v].[Superficie] AS [Superficie]
+    FROM [Cadastre].[Parcelles_v] AS [Parcelles_v]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Sinestree_Parcelles_v" EntityType="Self.Sinestree_Parcelles_v" store:Type="Views" store:Schema="Cadastre">
+            <DefiningQuery>SELECT 
+    [Sinestree_Parcelles_v].[NUP] AS [NUP], 
+    [Sinestree_Parcelles_v].[SinistreeTypeNom] AS [SinistreeTypeNom], 
+    [Sinestree_Parcelles_v].[Influence] AS [Influence], 
+    [Sinestree_Parcelles_v].[InfluenceCoefficient] AS [InfluenceCoefficient], 
+    [Sinestree_Parcelles_v].[Area] AS [Area]
+    FROM [Cadastre].[Sinestree_Parcelles_v] AS [Sinestree_Parcelles_v]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="JuridiqueSituations_v" EntityType="Self.JuridiqueSituations_v" store:Type="Views" store:Schema="Juridique">
+            <DefiningQuery>SELECT 
+    [JuridiqueSituations_v].[NUP] AS [NUP], 
+    [JuridiqueSituations_v].[JuridiqueTypeNom] AS [JuridiqueTypeNom], 
+    [JuridiqueSituations_v].[ProprietarePresume] AS [ProprietarePresume], 
+    [JuridiqueSituations_v].[Nom] AS [Nom], 
+    [JuridiqueSituations_v].[Observations] AS [Observations]
+    FROM [Juridique].[JuridiqueSituations_v] AS [JuridiqueSituations_v]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Certifica__Certi__6477ECF3" Association="Self.FK__Certifica__Certi__6477ECF3">
+            <End Role="CertificationDocumentTypes" EntitySet="CertificationDocumentTypes" />
+            <End Role="CertificationDocuments" EntitySet="CertificationDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Certifica__Parce__1AD3FDA4" Association="Self.FK__Certifica__Parce__1AD3FDA4">
+            <End Role="Parcelles" EntitySet="Parcelles" />
+            <End Role="CertificationDocuments" EntitySet="CertificationDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Corporatio__GUID__76969D2E" Association="Self.FK__Corporatio__GUID__76969D2E">
+            <End Role="Sujets" EntitySet="Sujets" />
+            <End Role="Corporations" EntitySet="Corporations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Immeubles__GUID__19DFD96B" Association="Self.FK__Immeubles__GUID__19DFD96B">
+            <End Role="JuridiqueObjets" EntitySet="JuridiqueObjets" />
+            <End Role="Immeubles" EntitySet="Immeubles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Impots__Parcelle__18EBB532" Association="Self.FK__Impots__Parcelle__18EBB532">
+            <End Role="Parcelles" EntitySet="Parcelles" />
+            <End Role="Impots" EntitySet="Impots" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Juridique__CadSe__06CD04F7" Association="Self.FK__Juridique__CadSe__06CD04F7">
+            <End Role="CadastraleDivisions" EntitySet="CadastraleDivisions" />
+            <End Role="JuridiqueObjets" EntitySet="JuridiqueObjets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Parcelles__GUID__1BC821DD" Association="Self.FK__Parcelles__GUID__1BC821DD">
+            <End Role="JuridiqueObjets" EntitySet="JuridiqueObjets" />
+            <End Role="Parcelles" EntitySet="Parcelles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Personnes__GUID__75A278F5" Association="Self.FK__Personnes__GUID__75A278F5">
+            <End Role="Sujets" EntitySet="Sujets" />
+            <End Role="Personnes" EntitySet="Personnes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Proprieta__Sujet__68487DD7" Association="Self.FK__Proprieta__Sujet__68487DD7">
+            <End Role="Sujets" EntitySet="Sujets" />
+            <End Role="ProprietairePresume" EntitySet="ProprietairePresume" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Proprieta__Sujet__6A30C649" Association="Self.FK__Proprieta__Sujet__6A30C649">
+            <End Role="Sujets" EntitySet="Sujets" />
+            <End Role="ProprietaireAncien" EntitySet="ProprietaireAncien" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Proprieta__Trans__6754599E" Association="Self.FK__Proprieta__Trans__6754599E">
+            <End Role="Transactions" EntitySet="Transactions" />
+            <End Role="ProprietairePresume" EntitySet="ProprietairePresume" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Proprieta__Trans__693CA210" Association="Self.FK__Proprieta__Trans__693CA210">
+            <End Role="Transactions" EntitySet="Transactions" />
+            <End Role="ProprietaireAncien" EntitySet="ProprietaireAncien" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Sinistree__Sinis__66603565" Association="Self.FK__Sinistree__Sinis__66603565">
+            <End Role="SinistreeTypes" EntitySet="SinistreeTypes" />
+            <End Role="SinistreeRegions" EntitySet="SinistreeRegions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SujetDocu__Sujet__73BA3083" Association="Self.FK__SujetDocu__Sujet__73BA3083">
+            <End Role="Sujets" EntitySet="Sujets" />
+            <End Role="SujetDocument" EntitySet="SujetDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SujetDocu__Sujet__74AE54BC" Association="Self.FK__SujetDocu__Sujet__74AE54BC">
+            <End Role="SujetDocumentTypes" EntitySet="SujetDocumentTypes" />
+            <End Role="SujetDocument" EntitySet="SujetDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Sujets__National__72C60C4A" Association="Self.FK__Sujets__National__72C60C4A">
+            <End Role="Etats" EntitySet="Etats" />
+            <End Role="Sujets" EntitySet="Sujets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Jurid__6EF57B66" Association="Self.FK__Transacti__Jurid__6EF57B66">
+            <End Role="JuridiqueTypes" EntitySet="JuridiqueTypes" />
+            <End Role="TransactionTypes" EntitySet="TransactionTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Jurid__70DDC3D8" Association="Self.FK__Transacti__Jurid__70DDC3D8">
+            <End Role="JuridiqueObjets" EntitySet="JuridiqueObjets" />
+            <End Role="TransactionObjets" EntitySet="TransactionObjets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__MereT__6B24EA82" Association="Self.FK__Transacti__MereT__6B24EA82">
+            <End Role="Transactions" EntitySet="Transactions" />
+            <End Role="Transactions1" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Trans__6C190EBB" Association="Self.FK__Transacti__Trans__6C190EBB">
+            <End Role="TransactionTypes" EntitySet="TransactionTypes" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Trans__6D0D32F4" Association="Self.FK__Transacti__Trans__6D0D32F4">
+            <End Role="TransactionDocuments" EntitySet="TransactionDocuments" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Trans__6E01572D" Association="Self.FK__Transacti__Trans__6E01572D">
+            <End Role="TransactionDocumentTypes" EntitySet="TransactionDocumentTypes" />
+            <End Role="TransactionDocuments" EntitySet="TransactionDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Trans__6FE99F9F" Association="Self.FK__Transacti__Trans__6FE99F9F">
+            <End Role="Transactions" EntitySet="Transactions" />
+            <End Role="TransactionObjets" EntitySet="TransactionObjets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Utilisati__Jurid__628FA481" Association="Self.FK__Utilisati__Jurid__628FA481">
+            <End Role="JuridiqueObjets" EntitySet="JuridiqueObjets" />
+            <End Role="Utilisations" EntitySet="Utilisations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Utilisati__Utili__6383C8BA" Association="Self.FK__Utilisati__Utili__6383C8BA">
+            <End Role="UtilisationTypes" EntitySet="UtilisationTypes" />
+            <End Role="Utilisations" EntitySet="Utilisations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+	<!-- CSDL content -->
+	<edmx:ConceptualModels>
+	  <Schema Namespace="gmaFFFFF.CadastrBenin.DAL.EFModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+		<ComplexType Name="ParseCadastralNumber_Result">
+		  <Property Name="DepartmentInd" Type="Byte" />
+		  <Property Name="ZoneInd" Type="Byte" />
+		  <Property Name="SectorInd" Type="Byte" />
+		  <Property Name="ParcelInd" Type="Int32" />
+		  <Property Name="BuildingInd" Type="Int32" />
+		  <Property Name="ZoneNum" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+		  <Property Name="SectorNum" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+		  <Property Name="ParcelNum" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+		  <Property Name="BuildingNum" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+		</ComplexType>
+		<EntityType Name="CadastraleDivision">
+		  <Key>
+			<PropertyRef Name="Numero" />
+		  </Key>
+		  <Property Name="Numero" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+		  <Property Name="Nom" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+		  <Property Name="Id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+		  <Property Name="Niveau" Type="Int16" annotation:StoreGeneratedPattern="Computed" />
+		  <Property Name="Shape" Type="Geometry" Nullable="false" />
+		  <NavigationProperty Name="JuridiqueObjets" Relationship="Self.FK__Juridique__CadSe__5F7E2DAC" FromRole="CadastraleDivisions" ToRole="JuridiqueObjets" />
+		</EntityType>
+		<EntityType Name="CertificationDocument">
+		  <Key>
+			<PropertyRef Name="Id" />
+		  </Key>
+		  <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+		  <Property Name="ParcelleGUID" Type="Guid" Nullable="false" />
+		  <Property Name="CertificationDocumentTypeNom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+		  <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+		  <Property Name="Num" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+		  <NavigationProperty Name="CertificationDocumentType" Relationship="Self.FK__Certifica__Certi__66603565" FromRole="CertificationDocuments" ToRole="CertificationDocumentTypes" />
+		  <NavigationProperty Name="Parcelle" Relationship="Self.FK__Certifica__Parce__339FAB6E" FromRole="CertificationDocuments" ToRole="Parcelles" />
+		</EntityType>
+		<EntityType Name="CertificationDocumentType">
+		  <Key>
+			<PropertyRef Name="Nom" />
+		  </Key>
+		  <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+		  <NavigationProperty Name="CertificationDocuments" Relationship="Self.FK__Certifica__Certi__66603565" FromRole="CertificationDocumentTypes" ToRole="CertificationDocuments" />
+		</EntityType>
+		<EntityType Name="Immeuble" BaseType="gmaFFFFF.CadastrBenin.DAL.EFModel.JuridiqueObjet">
+		  <Property Name="NUP" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+		  <Property Name="ParcelleNUP" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+		  <Property Name="ImmeubleSurParcelleNumero" Type="String" MaxLength="25" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+		  <Property Name="Nom" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+		  <Property Name="PiecesNombre" Type="Int16" />
+		  <Property Name="EtagesNombre" Type="Byte" />
+		</EntityType>
+		<EntityType Name="Impot">
+		  <Key>
+			<PropertyRef Name="Id" />
+		  </Key>
+		  <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+		  <Property Name="ParcelleGUID" Type="Guid" Nullable="false" />
+		  <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+		  <Property Name="Somme" Type="Decimal" Precision="19" Scale="2" Nullable="false" />
+		  <Property Name="Document" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+		  <NavigationProperty Name="Parcelle" Relationship="Self.FK__Impots__Parcelle__3493CFA7" FromRole="Impots" ToRole="Parcelles" />
+		</EntityType>
+		<EntityType Name="JuridiqueObjet" Abstract="true">
+		  <Key>
+			<PropertyRef Name="GUID" />
+		  </Key>
+		  <Property Name="GUID" Type="Guid" Nullable="false" />
+		  <Property Name="CadSecteurNumero" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+		  <Property Name="Shape" Type="Geometry" />
+		  <Property Name="Superficie" Type="Int32" annotation:StoreGeneratedPattern="Computed" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+		  <NavigationProperty Name="CadastraleDivision" Relationship="Self.FK__Juridique__CadSe__5F7E2DAC" FromRole="JuridiqueObjets" ToRole="CadastraleDivisions" />
+		  <NavigationProperty Name="TransactionObjets" Relationship="Self.FK__Transacti__Jurid__71D1E811" FromRole="JuridiqueObjets" ToRole="TransactionObjets" />
+		  <NavigationProperty Name="Utilisations" Relationship="Self.FK__Utilisati__Jurid__6383C8BA" FromRole="JuridiqueObjets" ToRole="Utilisations" />
+		</EntityType>
+		<EntityType Name="Parcelle" BaseType="gmaFFFFF.CadastrBenin.DAL.EFModel.JuridiqueObjet">
+		  <Property Name="ParcelleSurCadSecteurNumero" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+		  <Property Name="NUP" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+		  <Property Name="SiArpentageFrontiere" Type="Boolean" Nullable="false" />
+		  <NavigationProperty Name="CertificationDocuments" Relationship="Self.FK__Certifica__Parce__339FAB6E" FromRole="Parcelles" ToRole="CertificationDocuments" />
+		  <NavigationProperty Name="Impots" Relationship="Self.FK__Impots__Parcelle__3493CFA7" FromRole="Parcelles" ToRole="Impots" />
+		</EntityType>
+		<EntityType Name="SinistreeRegion">
+		  <Key>
+			<PropertyRef Name="Id" />
+		  </Key>
+		  <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+		  <Property Name="SinistreeTypeNom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+		  <Property Name="Influence" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+		  <Property Name="Shape" Type="Geometry" Nullable="false" />
+		  <NavigationProperty Name="SinistreeType" Relationship="Self.FK__Sinistree__Sinis__656C112C" FromRole="SinistreeRegions" ToRole="SinistreeTypes" />
+          <Property Name="InfluenceCoefficient" Type="Double" />
+		</EntityType>
+		<EntityType Name="SinistreeType">
+		  <Key>
+			<PropertyRef Name="Nom" />
+		  </Key>
+		  <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+		  <NavigationProperty Name="SinistreeRegions" Relationship="Self.FK__Sinistree__Sinis__656C112C" FromRole="SinistreeTypes" ToRole="SinistreeRegions" />
+		</EntityType>
+		<EntityType Name="Utilisation">
+		  <Key>
+			<PropertyRef Name="Id" />
+		  </Key>
+		  <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+		  <Property Name="UtilisationTypeNom" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+		  <Property Name="JuridiqueObjetGUID" Type="Guid" Nullable="false" />
+		  <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+		  <Property Name="Document" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+		  <NavigationProperty Name="JuridiqueObjet" Relationship="Self.FK__Utilisati__Jurid__6383C8BA" FromRole="Utilisations" ToRole="JuridiqueObjets" />
+		  <NavigationProperty Name="UtilisationType" Relationship="Self.FK__Utilisati__Utili__6477ECF3" FromRole="Utilisations" ToRole="UtilisationTypes" />
+		</EntityType>
+		<EntityType Name="UtilisationType">
+		  <Key>
+			<PropertyRef Name="Nom" />
+		  </Key>
+		  <Property Name="Nom" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+		  <NavigationProperty Name="Utilisations" Relationship="Self.FK__Utilisati__Utili__6477ECF3" FromRole="UtilisationTypes" ToRole="Utilisations" />
+		</EntityType>
+		<EntityType Name="JuridiqueType">
+		  <Key>
+			<PropertyRef Name="Nom" />
+		  </Key>
+		  <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+		  <NavigationProperty Name="TransactionTypes" Relationship="Self.FK__Transacti__Jurid__6FE99F9F" FromRole="JuridiqueTypes" ToRole="TransactionTypes" />
+		</EntityType>
+		<EntityType Name="ProprietaireAncien">
+		  <Key>
+			<PropertyRef Name="Id" />
+		  </Key>
+		  <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+		  <Property Name="TransactionGUID" Type="Guid" Nullable="false" />
+		  <Property Name="SujetGUID" Type="Guid" Nullable="false" />
+		  <NavigationProperty Name="Sujet" Relationship="Self.FK__Proprieta__Sujet__6B24EA82" FromRole="ProprietaireAncien" ToRole="Sujets" />
+		  <NavigationProperty Name="Transaction" Relationship="Self.FK__Proprieta__Trans__6A30C649" FromRole="ProprietaireAncien" ToRole="Transactions" />
+		</EntityType>
+		<EntityType Name="ProprietairePresume">
+		  <Key>
+			<PropertyRef Name="Id" />
+		  </Key>
+		  <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+		  <Property Name="TransactionGUID" Type="Guid" Nullable="false" />
+		  <Property Name="SujetGUID" Type="Guid" Nullable="false" />
+		  <NavigationProperty Name="Sujet" Relationship="Self.FK__Proprieta__Sujet__693CA210" FromRole="ProprietairePresume" ToRole="Sujets" />
+		  <NavigationProperty Name="Transaction" Relationship="Self.FK__Proprieta__Trans__68487DD7" FromRole="ProprietairePresume" ToRole="Transactions" />
+		</EntityType>
+		<EntityType Name="TransactionDocument">
+		  <Key>
+			<PropertyRef Name="Id" />
+		  </Key>
+		  <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+		  <Property Name="TransactionDocumentTypeNom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+		  <Property Name="Date" Type="DateTime" Precision="0" />
+		  <Property Name="Num" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+		  <NavigationProperty Name="Transactions" Relationship="Self.FK__Transacti__Trans__6E01572D" FromRole="TransactionDocuments" ToRole="Transactions" />
+		  <NavigationProperty Name="TransactionDocumentType" Relationship="Self.FK__Transacti__Trans__6EF57B66" FromRole="TransactionDocuments" ToRole="TransactionDocumentTypes" />
+		</EntityType>
+		<EntityType Name="TransactionDocumentType">
+		  <Key>
+			<PropertyRef Name="Nom" />
+		  </Key>
+		  <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+		  <NavigationProperty Name="TransactionDocuments" Relationship="Self.FK__Transacti__Trans__6EF57B66" FromRole="TransactionDocumentTypes" ToRole="TransactionDocuments" />
+		</EntityType>
+		<EntityType Name="TransactionObjet">
+		  <Key>
+			<PropertyRef Name="Id" />
+		  </Key>
+		  <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+		  <Property Name="JuridiqueObjetGUID" Type="Guid" Nullable="false" />
+		  <Property Name="TransactionGUID" Type="Guid" Nullable="false" />
+		  <NavigationProperty Name="JuridiqueObjet" Relationship="Self.FK__Transacti__Jurid__71D1E811" FromRole="TransactionObjets" ToRole="JuridiqueObjets" />
+		  <NavigationProperty Name="Transaction" Relationship="Self.FK__Transacti__Trans__70DDC3D8" FromRole="TransactionObjets" ToRole="Transactions" />
+		</EntityType>
+		<EntityType Name="Transaction">
+		  <Key>
+			<PropertyRef Name="GUID" />
+		  </Key>
+		  <Property Name="GUID" Type="Guid" Nullable="false" />
+		  <Property Name="MereTransactionGUID" Type="Guid" />
+		  <Property Name="TransactionTypeNom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+		  <Property Name="TransactionDocumentId" Type="Int32" Nullable="false" />
+		  <Property Name="DebutDate" Type="DateTime" Nullable="false" Precision="0" />
+		  <Property Name="FinDate" Type="DateTime" Precision="0" />
+		  <Property Name="Observations" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+		  <NavigationProperty Name="ProprietaireAnciens" Relationship="Self.FK__Proprieta__Trans__6A30C649" FromRole="Transactions" ToRole="ProprietaireAncien" />
+		  <NavigationProperty Name="ProprietairePresumes" Relationship="Self.FK__Proprieta__Trans__68487DD7" FromRole="Transactions" ToRole="ProprietairePresume" />
+		  <NavigationProperty Name="TransactionDocument" Relationship="Self.FK__Transacti__Trans__6E01572D" FromRole="Transactions" ToRole="TransactionDocuments" />
+		  <NavigationProperty Name="TransactionObjets" Relationship="Self.FK__Transacti__Trans__70DDC3D8" FromRole="Transactions" ToRole="TransactionObjets" />
+		  <NavigationProperty Name="Transactions1" Relationship="Self.FK__Transacti__MereT__6C190EBB" FromRole="Transactions" ToRole="Transactions1" />
+		  <NavigationProperty Name="Transaction1" Relationship="Self.FK__Transacti__MereT__6C190EBB" FromRole="Transactions1" ToRole="Transactions" />
+		  <NavigationProperty Name="TransactionType" Relationship="Self.FK__Transacti__Trans__6D0D32F4" FromRole="Transactions" ToRole="TransactionTypes" />
+		</EntityType>
+		<EntityType Name="TransactionType">
+		  <Key>
+			<PropertyRef Name="Nom" />
+		  </Key>
+		  <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+		  <Property Name="JuridiqueTypeNom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+		  <NavigationProperty Name="JuridiqueType" Relationship="Self.FK__Transacti__Jurid__6FE99F9F" FromRole="TransactionTypes" ToRole="JuridiqueTypes" />
+		  <NavigationProperty Name="Transactions" Relationship="Self.FK__Transacti__Trans__6D0D32F4" FromRole="TransactionTypes" ToRole="Transactions" />
+		</EntityType>
+		<EntityType Name="Corporation" BaseType="gmaFFFFF.CadastrBenin.DAL.EFModel.Sujet">
+		  <Property Name="Nom" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+		</EntityType>
+		<EntityType Name="Etat">
+		  <Key>
+			<PropertyRef Name="Nom" />
+		  </Key>
+		  <Property Name="Nom" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+		  <NavigationProperty Name="Sujets" Relationship="Self.FK__Sujets__National__73BA3083" FromRole="Etats" ToRole="Sujets" />
+		</EntityType>
+		<EntityType Name="Personne" BaseType="gmaFFFFF.CadastrBenin.DAL.EFModel.Sujet">
+		  <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+		  <Property Name="Prenoms" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+		  <Property Name="Sexe" Type="Boolean" />
+		  <Property Name="NaissanceLieu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+		  <Property Name="NaissanceDate" Type="DateTime" Precision="0" />
+		  <Property Name="Profession" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+		  <Property Name="NomEtPrenome" Type="String" MaxLength="201" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+		</EntityType>
+		<EntityType Name="SujetDocument">
+		  <Key>
+			<PropertyRef Name="Id" />
+		  </Key>
+		  <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+		  <Property Name="SujetGUID" Type="Guid" Nullable="false" />
+		  <Property Name="SujetDocumentTypeNom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+		  <Property Name="Date" Type="DateTime" Precision="0" />
+		  <Property Name="Num" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+		  <NavigationProperty Name="Sujet" Relationship="Self.FK__SujetDocu__Sujet__74AE54BC" FromRole="SujetDocument" ToRole="Sujets" />
+		  <NavigationProperty Name="SujetDocumentType" Relationship="Self.FK__SujetDocu__Sujet__75A278F5" FromRole="SujetDocument" ToRole="SujetDocumentTypes" />
+		</EntityType>
+		<EntityType Name="SujetDocumentType">
+		  <Key>
+			<PropertyRef Name="Nom" />
+		  </Key>
+		  <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+		  <NavigationProperty Name="SujetDocuments" Relationship="Self.FK__SujetDocu__Sujet__75A278F5" FromRole="SujetDocumentTypes" ToRole="SujetDocument" />
+		</EntityType>
+		<EntityType Name="Sujet" Abstract="true">
+		  <Key>
+			<PropertyRef Name="GUID" />
+		  </Key>
+		  <Property Name="GUID" Type="Guid" Nullable="false" />
+		  <Property Name="Nationalite" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+		  <Property Name="Telephone" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+		  <Property Name="Adresse" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+		  <Property Name="BP" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+		  <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+		  <NavigationProperty Name="ProprietaireAnciens" Relationship="Self.FK__Proprieta__Sujet__6B24EA82" FromRole="Sujets" ToRole="ProprietaireAncien" />
+		  <NavigationProperty Name="ProprietairePresumes" Relationship="Self.FK__Proprieta__Sujet__693CA210" FromRole="Sujets" ToRole="ProprietairePresume" />
+		  <NavigationProperty Name="Etat" Relationship="Self.FK__Sujets__National__73BA3083" FromRole="Sujets" ToRole="Etats" />
+		  <NavigationProperty Name="SujetDocuments" Relationship="Self.FK__SujetDocu__Sujet__74AE54BC" FromRole="Sujets" ToRole="SujetDocument" />
+		</EntityType>
+		<EntityType Name="CadastraleDepartements_v">
+		  <Key>
+			<PropertyRef Name="Numero" />
+		  </Key>
+		  <Property Name="Numero" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+		  <Property Name="Id" Type="Byte" />
+		  <Property Name="Nom" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+		  <Property Name="Shape" Type="Geometry" Nullable="false" />
+		</EntityType>
+		<EntityType Name="CadastraleSecteurs_v">
+		  <Key>
+			<PropertyRef Name="Numero" />
+		  </Key>
+		  <Property Name="Numero" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+		  <Property Name="Id" Type="Byte" />
+		  <Property Name="Nom" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+		  <Property Name="Shape" Type="Geometry" Nullable="false" />
+		</EntityType>
+		<EntityType Name="CadastraleZones_v">
+		  <Key>
+			<PropertyRef Name="Numero" />
+		  </Key>
+		  <Property Name="Numero" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+		  <Property Name="Id" Type="Byte" />
+		  <Property Name="Nom" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+		  <Property Name="Shape" Type="Geometry" Nullable="false" />
+		</EntityType>
+		<EntityType Name="Immeubles_Parcelles_v">
+		  <Key>
+			<PropertyRef Name="ParcelNUP" />
+		  </Key>
+		  <Property Name="ParcelNUP" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+		  <Property Name="ImmeublesCount" Type="Int32" />
+		</EntityType>
+		<EntityType Name="Immeubles_v">
+		  <Key>
+			<PropertyRef Name="NUP" />
+		  </Key>
+		  <Property Name="NUP" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+		  <Property Name="Nom" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+		  <Property Name="PiecesNombre" Type="Int16" />
+		  <Property Name="EtagesNombre" Type="Byte" />
+		  <Property Name="Shape" Type="Geometry" />
+		  <Property Name="Superficie" Type="Double" />
+		</EntityType>
+		<EntityType Name="Parcelles_v">
+		  <Key>
+			<PropertyRef Name="NUP" />
+			<PropertyRef Name="SiArpentageFrontiere" />
+		  </Key>
+		  <Property Name="NUP" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+		  <Property Name="SiArpentageFrontiere" Type="Boolean" Nullable="false" />
+		  <Property Name="Shape" Type="Geometry" />
+		  <Property Name="Superficie" Type="Double" />
+		</EntityType>
+		<EntityType Name="Sinestree_Parcelles_v">
+		  <Key>
+			<PropertyRef Name="NUP" />
+			<PropertyRef Name="SinistreeTypeNom" />
+		  </Key>
+		  <Property Name="NUP" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+		  <Property Name="SinistreeTypeNom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+		  <Property Name="Influence" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="InfluenceCoefficient" Type="Double" />
+          <Property Name="Area" Type="Double" />
+		</EntityType>
+		<EntityType Name="JuridiqueSituations_v">
+		  <Key>
+			<PropertyRef Name="NUP" />
+			<PropertyRef Name="JuridiqueTypeNom" />
+			<PropertyRef Name="ProprietarePresume" />
+			<PropertyRef Name="Nom" />
+		  </Key>
+		  <Property Name="NUP" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+		  <Property Name="JuridiqueTypeNom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+		  <Property Name="ProprietarePresume" Type="Guid" Nullable="false" />
+		  <Property Name="Nom" Type="String" MaxLength="201" FixedLength="false" Unicode="true" Nullable="false" />
+		  <Property Name="Observations" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+		</EntityType>
+		<Association Name="FK__Juridique__CadSe__5F7E2DAC">
+		  <End Role="CadastraleDivisions" Type="Self.CadastraleDivision" Multiplicity="1" />
+		  <End Role="JuridiqueObjets" Type="Self.JuridiqueObjet" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="CadastraleDivisions">
+			  <PropertyRef Name="Numero" />
+			</Principal>
+			<Dependent Role="JuridiqueObjets">
+			  <PropertyRef Name="CadSecteurNumero" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Certifica__Certi__66603565">
+		  <End Role="CertificationDocumentTypes" Type="Self.CertificationDocumentType" Multiplicity="1" />
+		  <End Role="CertificationDocuments" Type="Self.CertificationDocument" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="CertificationDocumentTypes">
+			  <PropertyRef Name="Nom" />
+			</Principal>
+			<Dependent Role="CertificationDocuments">
+			  <PropertyRef Name="CertificationDocumentTypeNom" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Certifica__Parce__339FAB6E">
+		  <End Role="Parcelles" Type="Self.Parcelle" Multiplicity="1">
+			<OnDelete Action="Cascade" />
+		  </End>
+		  <End Role="CertificationDocuments" Type="Self.CertificationDocument" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="Parcelles">
+			  <PropertyRef Name="GUID" />
+			</Principal>
+			<Dependent Role="CertificationDocuments">
+			  <PropertyRef Name="ParcelleGUID" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Impots__Parcelle__3493CFA7">
+		  <End Role="Parcelles" Type="Self.Parcelle" Multiplicity="1">
+			<OnDelete Action="Cascade" />
+		  </End>
+		  <End Role="Impots" Type="Self.Impot" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="Parcelles">
+			  <PropertyRef Name="GUID" />
+			</Principal>
+			<Dependent Role="Impots">
+			  <PropertyRef Name="ParcelleGUID" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Transacti__Jurid__71D1E811">
+		  <End Role="JuridiqueObjets" Type="Self.JuridiqueObjet" Multiplicity="1" />
+		  <End Role="TransactionObjets" Type="Self.TransactionObjet" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="JuridiqueObjets">
+			  <PropertyRef Name="GUID" />
+			</Principal>
+			<Dependent Role="TransactionObjets">
+			  <PropertyRef Name="JuridiqueObjetGUID" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Utilisati__Jurid__6383C8BA">
+		  <End Role="JuridiqueObjets" Type="Self.JuridiqueObjet" Multiplicity="1">
+			<OnDelete Action="Cascade" />
+		  </End>
+		  <End Role="Utilisations" Type="Self.Utilisation" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="JuridiqueObjets">
+			  <PropertyRef Name="GUID" />
+			</Principal>
+			<Dependent Role="Utilisations">
+			  <PropertyRef Name="JuridiqueObjetGUID" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Sinistree__Sinis__656C112C">
+		  <End Role="SinistreeTypes" Type="Self.SinistreeType" Multiplicity="1" />
+		  <End Role="SinistreeRegions" Type="Self.SinistreeRegion" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="SinistreeTypes">
+			  <PropertyRef Name="Nom" />
+			</Principal>
+			<Dependent Role="SinistreeRegions">
+			  <PropertyRef Name="SinistreeTypeNom" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Utilisati__Utili__6477ECF3">
+		  <End Role="UtilisationTypes" Type="Self.UtilisationType" Multiplicity="1" />
+		  <End Role="Utilisations" Type="Self.Utilisation" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="UtilisationTypes">
+			  <PropertyRef Name="Nom" />
+			</Principal>
+			<Dependent Role="Utilisations">
+			  <PropertyRef Name="UtilisationTypeNom" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Transacti__Jurid__6FE99F9F">
+		  <End Role="JuridiqueTypes" Type="Self.JuridiqueType" Multiplicity="1" />
+		  <End Role="TransactionTypes" Type="Self.TransactionType" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="JuridiqueTypes">
+			  <PropertyRef Name="Nom" />
+			</Principal>
+			<Dependent Role="TransactionTypes">
+			  <PropertyRef Name="JuridiqueTypeNom" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Proprieta__Sujet__6B24EA82">
+		  <End Role="Sujets" Type="Self.Sujet" Multiplicity="1" />
+		  <End Role="ProprietaireAncien" Type="Self.ProprietaireAncien" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="Sujets">
+			  <PropertyRef Name="GUID" />
+			</Principal>
+			<Dependent Role="ProprietaireAncien">
+			  <PropertyRef Name="SujetGUID" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Proprieta__Trans__6A30C649">
+		  <End Role="Transactions" Type="Self.Transaction" Multiplicity="1">
+			<OnDelete Action="Cascade" />
+		  </End>
+		  <End Role="ProprietaireAncien" Type="Self.ProprietaireAncien" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="Transactions">
+			  <PropertyRef Name="GUID" />
+			</Principal>
+			<Dependent Role="ProprietaireAncien">
+			  <PropertyRef Name="TransactionGUID" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Proprieta__Sujet__693CA210">
+		  <End Role="Sujets" Type="Self.Sujet" Multiplicity="1" />
+		  <End Role="ProprietairePresume" Type="Self.ProprietairePresume" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="Sujets">
+			  <PropertyRef Name="GUID" />
+			</Principal>
+			<Dependent Role="ProprietairePresume">
+			  <PropertyRef Name="SujetGUID" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Proprieta__Trans__68487DD7">
+		  <End Role="Transactions" Type="Self.Transaction" Multiplicity="1">
+			<OnDelete Action="Cascade" />
+		  </End>
+		  <End Role="ProprietairePresume" Type="Self.ProprietairePresume" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="Transactions">
+			  <PropertyRef Name="GUID" />
+			</Principal>
+			<Dependent Role="ProprietairePresume">
+			  <PropertyRef Name="TransactionGUID" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Transacti__Trans__6E01572D">
+		  <End Role="TransactionDocuments" Type="Self.TransactionDocument" Multiplicity="1">
+			<OnDelete Action="Cascade" />
+		  </End>
+		  <End Role="Transactions" Type="Self.Transaction" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="TransactionDocuments">
+			  <PropertyRef Name="Id" />
+			</Principal>
+			<Dependent Role="Transactions">
+			  <PropertyRef Name="TransactionDocumentId" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Transacti__Trans__6EF57B66">
+		  <End Role="TransactionDocumentTypes" Type="Self.TransactionDocumentType" Multiplicity="1" />
+		  <End Role="TransactionDocuments" Type="Self.TransactionDocument" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="TransactionDocumentTypes">
+			  <PropertyRef Name="Nom" />
+			</Principal>
+			<Dependent Role="TransactionDocuments">
+			  <PropertyRef Name="TransactionDocumentTypeNom" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Transacti__Trans__70DDC3D8">
+		  <End Role="Transactions" Type="Self.Transaction" Multiplicity="1">
+			<OnDelete Action="Cascade" />
+		  </End>
+		  <End Role="TransactionObjets" Type="Self.TransactionObjet" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="Transactions">
+			  <PropertyRef Name="GUID" />
+			</Principal>
+			<Dependent Role="TransactionObjets">
+			  <PropertyRef Name="TransactionGUID" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Transacti__MereT__6C190EBB">
+		  <End Role="Transactions" Type="Self.Transaction" Multiplicity="0..1" />
+		  <End Role="Transactions1" Type="Self.Transaction" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="Transactions">
+			  <PropertyRef Name="GUID" />
+			</Principal>
+			<Dependent Role="Transactions1">
+			  <PropertyRef Name="MereTransactionGUID" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Transacti__Trans__6D0D32F4">
+		  <End Role="TransactionTypes" Type="Self.TransactionType" Multiplicity="1" />
+		  <End Role="Transactions" Type="Self.Transaction" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="TransactionTypes">
+			  <PropertyRef Name="Nom" />
+			</Principal>
+			<Dependent Role="Transactions">
+			  <PropertyRef Name="TransactionTypeNom" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__Sujets__National__73BA3083">
+		  <End Role="Etats" Type="Self.Etat" Multiplicity="1" />
+		  <End Role="Sujets" Type="Self.Sujet" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="Etats">
+			  <PropertyRef Name="Nom" />
+			</Principal>
+			<Dependent Role="Sujets">
+			  <PropertyRef Name="Nationalite" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__SujetDocu__Sujet__74AE54BC">
+		  <End Role="Sujets" Type="Self.Sujet" Multiplicity="1">
+			<OnDelete Action="Cascade" />
+		  </End>
+		  <End Role="SujetDocument" Type="Self.SujetDocument" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="Sujets">
+			  <PropertyRef Name="GUID" />
+			</Principal>
+			<Dependent Role="SujetDocument">
+			  <PropertyRef Name="SujetGUID" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<Association Name="FK__SujetDocu__Sujet__75A278F5">
+		  <End Role="SujetDocumentTypes" Type="Self.SujetDocumentType" Multiplicity="1" />
+		  <End Role="SujetDocument" Type="Self.SujetDocument" Multiplicity="*" />
+		  <ReferentialConstraint>
+			<Principal Role="SujetDocumentTypes">
+			  <PropertyRef Name="Nom" />
+			</Principal>
+			<Dependent Role="SujetDocument">
+			  <PropertyRef Name="SujetDocumentTypeNom" />
+			</Dependent>
+		  </ReferentialConstraint>
+		</Association>
+		<EntityContainer Name="CadastrBeninDB" annotation:LazyLoadingEnabled="true" a:TypeAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+		  <EntitySet Name="CadastraleDivisions" EntityType="Self.CadastraleDivision" />
+		  <EntitySet Name="CertificationDocuments" EntityType="Self.CertificationDocument" />
+		  <EntitySet Name="CertificationDocumentTypes" EntityType="Self.CertificationDocumentType" />
+		  <EntitySet Name="Impots" EntityType="Self.Impot" />
+		  <EntitySet Name="JuridiqueObjets" EntityType="Self.JuridiqueObjet" />
+		  <EntitySet Name="SinistreeRegions" EntityType="Self.SinistreeRegion" />
+		  <EntitySet Name="SinistreeTypes" EntityType="Self.SinistreeType" />
+		  <EntitySet Name="Utilisations" EntityType="Self.Utilisation" />
+		  <EntitySet Name="UtilisationTypes" EntityType="Self.UtilisationType" />
+		  <EntitySet Name="JuridiqueTypes" EntityType="Self.JuridiqueType" />
+		  <EntitySet Name="ProprietaireAnciens" EntityType="Self.ProprietaireAncien" />
+		  <EntitySet Name="ProprietairePresumes" EntityType="Self.ProprietairePresume" />
+		  <EntitySet Name="TransactionDocuments" EntityType="Self.TransactionDocument" />
+		  <EntitySet Name="TransactionDocumentTypes" EntityType="Self.TransactionDocumentType" />
+		  <EntitySet Name="TransactionObjets" EntityType="Self.TransactionObjet" />
+		  <EntitySet Name="Transactions" EntityType="Self.Transaction" />
+		  <EntitySet Name="TransactionTypes" EntityType="Self.TransactionType" />
+		  <EntitySet Name="Etats" EntityType="Self.Etat" />
+		  <EntitySet Name="SujetDocuments" EntityType="Self.SujetDocument" />
+		  <EntitySet Name="SujetDocumentTypes" EntityType="Self.SujetDocumentType" />
+		  <EntitySet Name="Sujets" EntityType="Self.Sujet" />
+		  <EntitySet Name="CadastraleDepartements_v" EntityType="Self.CadastraleDepartements_v" />
+		  <EntitySet Name="CadastraleSecteurs_v" EntityType="Self.CadastraleSecteurs_v" />
+		  <EntitySet Name="CadastraleZones_v" EntityType="Self.CadastraleZones_v" />
+		  <EntitySet Name="Immeubles_Parcelles_v" EntityType="Self.Immeubles_Parcelles_v" />
+		  <EntitySet Name="Immeubles_v" EntityType="Self.Immeubles_v" />
+		  <EntitySet Name="Parcelles_v" EntityType="Self.Parcelles_v" />
+		  <EntitySet Name="Sinestree_Parcelles_v" EntityType="Self.Sinestree_Parcelles_v" />
+		  <EntitySet Name="JuridiqueSituations_v" EntityType="Self.JuridiqueSituations_v" />
+		  <AssociationSet Name="FK__Juridique__CadSe__5F7E2DAC" Association="Self.FK__Juridique__CadSe__5F7E2DAC">
+			<End Role="CadastraleDivisions" EntitySet="CadastraleDivisions" />
+			<End Role="JuridiqueObjets" EntitySet="JuridiqueObjets" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Certifica__Certi__66603565" Association="Self.FK__Certifica__Certi__66603565">
+			<End Role="CertificationDocumentTypes" EntitySet="CertificationDocumentTypes" />
+			<End Role="CertificationDocuments" EntitySet="CertificationDocuments" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Certifica__Parce__339FAB6E" Association="Self.FK__Certifica__Parce__339FAB6E">
+			<End Role="Parcelles" EntitySet="JuridiqueObjets" />
+			<End Role="CertificationDocuments" EntitySet="CertificationDocuments" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Impots__Parcelle__3493CFA7" Association="Self.FK__Impots__Parcelle__3493CFA7">
+			<End Role="Parcelles" EntitySet="JuridiqueObjets" />
+			<End Role="Impots" EntitySet="Impots" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Transacti__Jurid__71D1E811" Association="Self.FK__Transacti__Jurid__71D1E811">
+			<End Role="JuridiqueObjets" EntitySet="JuridiqueObjets" />
+			<End Role="TransactionObjets" EntitySet="TransactionObjets" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Utilisati__Jurid__6383C8BA" Association="Self.FK__Utilisati__Jurid__6383C8BA">
+			<End Role="JuridiqueObjets" EntitySet="JuridiqueObjets" />
+			<End Role="Utilisations" EntitySet="Utilisations" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Sinistree__Sinis__656C112C" Association="Self.FK__Sinistree__Sinis__656C112C">
+			<End Role="SinistreeTypes" EntitySet="SinistreeTypes" />
+			<End Role="SinistreeRegions" EntitySet="SinistreeRegions" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Utilisati__Utili__6477ECF3" Association="Self.FK__Utilisati__Utili__6477ECF3">
+			<End Role="UtilisationTypes" EntitySet="UtilisationTypes" />
+			<End Role="Utilisations" EntitySet="Utilisations" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Transacti__Jurid__6FE99F9F" Association="Self.FK__Transacti__Jurid__6FE99F9F">
+			<End Role="JuridiqueTypes" EntitySet="JuridiqueTypes" />
+			<End Role="TransactionTypes" EntitySet="TransactionTypes" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Proprieta__Sujet__6B24EA82" Association="Self.FK__Proprieta__Sujet__6B24EA82">
+			<End Role="Sujets" EntitySet="Sujets" />
+			<End Role="ProprietaireAncien" EntitySet="ProprietaireAnciens" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Proprieta__Trans__6A30C649" Association="Self.FK__Proprieta__Trans__6A30C649">
+			<End Role="Transactions" EntitySet="Transactions" />
+			<End Role="ProprietaireAncien" EntitySet="ProprietaireAnciens" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Proprieta__Sujet__693CA210" Association="Self.FK__Proprieta__Sujet__693CA210">
+			<End Role="Sujets" EntitySet="Sujets" />
+			<End Role="ProprietairePresume" EntitySet="ProprietairePresumes" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Proprieta__Trans__68487DD7" Association="Self.FK__Proprieta__Trans__68487DD7">
+			<End Role="Transactions" EntitySet="Transactions" />
+			<End Role="ProprietairePresume" EntitySet="ProprietairePresumes" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Transacti__Trans__6E01572D" Association="Self.FK__Transacti__Trans__6E01572D">
+			<End Role="TransactionDocuments" EntitySet="TransactionDocuments" />
+			<End Role="Transactions" EntitySet="Transactions" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Transacti__Trans__6EF57B66" Association="Self.FK__Transacti__Trans__6EF57B66">
+			<End Role="TransactionDocumentTypes" EntitySet="TransactionDocumentTypes" />
+			<End Role="TransactionDocuments" EntitySet="TransactionDocuments" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Transacti__Trans__70DDC3D8" Association="Self.FK__Transacti__Trans__70DDC3D8">
+			<End Role="Transactions" EntitySet="Transactions" />
+			<End Role="TransactionObjets" EntitySet="TransactionObjets" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Transacti__MereT__6C190EBB" Association="Self.FK__Transacti__MereT__6C190EBB">
+			<End Role="Transactions" EntitySet="Transactions" />
+			<End Role="Transactions1" EntitySet="Transactions" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Transacti__Trans__6D0D32F4" Association="Self.FK__Transacti__Trans__6D0D32F4">
+			<End Role="TransactionTypes" EntitySet="TransactionTypes" />
+			<End Role="Transactions" EntitySet="Transactions" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__Sujets__National__73BA3083" Association="Self.FK__Sujets__National__73BA3083">
+			<End Role="Etats" EntitySet="Etats" />
+			<End Role="Sujets" EntitySet="Sujets" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__SujetDocu__Sujet__74AE54BC" Association="Self.FK__SujetDocu__Sujet__74AE54BC">
+			<End Role="Sujets" EntitySet="Sujets" />
+			<End Role="SujetDocument" EntitySet="SujetDocuments" />
+		  </AssociationSet>
+		  <AssociationSet Name="FK__SujetDocu__Sujet__75A278F5" Association="Self.FK__SujetDocu__Sujet__75A278F5">
+			<End Role="SujetDocumentTypes" EntitySet="SujetDocumentTypes" />
+			<End Role="SujetDocument" EntitySet="SujetDocuments" />
+		  </AssociationSet>
+		  <FunctionImport Name="ParseCadastralNumber" IsComposable="true" ReturnType="Collection(gmaFFFFF.CadastrBenin.DAL.EFModel.ParseCadastralNumber_Result)">
+          <Parameter Name="cadNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Parcel_ImmeubleIntersect" EntityType="gmaFFFFF.CadastrBenin.DAL.EFModel.Parcel_ImmeubleIntersect" />
+		</EntityContainer>
+        <EntityType Name="Parcel_ImmeubleIntersect">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="ParcelNUP" />
+            <PropertyRef Name="ImmeubleNUP" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="ParcelNUP" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ImmeubleNUP" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ParcelShape" Type="Geometry" />
+          <Property Name="ImmeubleShape" Type="Geometry" />
+        </EntityType>
+	  </Schema>
+	</edmx:ConceptualModels>
+	<!-- C-S mapping content -->
+	<edmx:Mappings>
+	  <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+		<EntityContainerMapping StorageEntityContainer="Хранилище gmaFFFFFCadastrBeninDALEFModelContainer" CdmEntityContainer="CadastrBeninDB">
+		  <EntitySetMapping Name="CadastraleDivisions">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.CadastraleDivision">
+			  <MappingFragment StoreEntitySet="CadastraleDivisions">
+				<ScalarProperty Name="Numero" ColumnName="Numero" />
+				<ScalarProperty Name="Nom" ColumnName="Nom" />
+				<ScalarProperty Name="Id" ColumnName="Id" />
+				<ScalarProperty Name="Niveau" ColumnName="Niveau" />
+				<ScalarProperty Name="Shape" ColumnName="Shape" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="CertificationDocuments">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.CertificationDocument">
+			  <MappingFragment StoreEntitySet="CertificationDocuments">
+				<ScalarProperty Name="Id" ColumnName="Id" />
+				<ScalarProperty Name="ParcelleGUID" ColumnName="ParcelleGUID" />
+				<ScalarProperty Name="CertificationDocumentTypeNom" ColumnName="CertificationDocumentTypeNom" />
+				<ScalarProperty Name="Date" ColumnName="Date" />
+				<ScalarProperty Name="Num" ColumnName="Num" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="CertificationDocumentTypes">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.CertificationDocumentType">
+			  <MappingFragment StoreEntitySet="CertificationDocumentTypes">
+				<ScalarProperty Name="Nom" ColumnName="Nom" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="Impots">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.Impot">
+			  <MappingFragment StoreEntitySet="Impots">
+				<ScalarProperty Name="Id" ColumnName="Id" />
+				<ScalarProperty Name="ParcelleGUID" ColumnName="ParcelleGUID" />
+				<ScalarProperty Name="Date" ColumnName="Date" />
+				<ScalarProperty Name="Somme" ColumnName="Somme" />
+				<ScalarProperty Name="Document" ColumnName="Document" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="JuridiqueObjets">
+			<EntityTypeMapping TypeName="IsTypeOf(gmaFFFFF.CadastrBenin.DAL.EFModel.JuridiqueObjet)">
+			  <MappingFragment StoreEntitySet="JuridiqueObjets">
+				<ScalarProperty Name="GUID" ColumnName="GUID" />
+				<ScalarProperty Name="Superficie" ColumnName="Superficie" />
+				<ScalarProperty Name="Shape" ColumnName="Shape" />
+				<ScalarProperty Name="CadSecteurNumero" ColumnName="CadSecteurNumero" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+			<EntityTypeMapping TypeName="IsTypeOf(gmaFFFFF.CadastrBenin.DAL.EFModel.Immeuble)">
+			  <MappingFragment StoreEntitySet="Immeubles">
+				<ScalarProperty Name="GUID" ColumnName="GUID" />
+				<ScalarProperty Name="EtagesNombre" ColumnName="EtagesNombre" />
+				<ScalarProperty Name="PiecesNombre" ColumnName="PiecesNombre" />
+				<ScalarProperty Name="Nom" ColumnName="Nom" />
+				<ScalarProperty Name="ImmeubleSurParcelleNumero" ColumnName="ImmeubleSurParcelleNumero" />
+				<ScalarProperty Name="ParcelleNUP" ColumnName="ParcelleNUP" />
+				<ScalarProperty Name="NUP" ColumnName="NUP" />
+			  </MappingFragment>
+			  <MappingFragment StoreEntitySet="JuridiqueObjets">
+				<ScalarProperty Name="GUID" ColumnName="GUID" />
+				<Condition ColumnName="JuridiqueObjetTypeNom" Value="Immeuble" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+			<EntityTypeMapping TypeName="IsTypeOf(gmaFFFFF.CadastrBenin.DAL.EFModel.Parcelle)">
+			  <MappingFragment StoreEntitySet="Parcelles">
+				<ScalarProperty Name="GUID" ColumnName="GUID" />
+				<ScalarProperty Name="ParcelleSurCadSecteurNumero" ColumnName="ParcelleSurCadSecteurNumero" />
+				<ScalarProperty Name="NUP" ColumnName="NUP" />
+				<ScalarProperty Name="SiArpentageFrontiere" ColumnName="SiArpentageFrontiere" />
+			  </MappingFragment>
+			  <MappingFragment StoreEntitySet="JuridiqueObjets">
+				<ScalarProperty Name="GUID" ColumnName="GUID" />
+				<Condition ColumnName="JuridiqueObjetTypeNom" Value="Parcelle" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="SinistreeRegions">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.SinistreeRegion">
+			  <MappingFragment StoreEntitySet="SinistreeRegions">
+				<ScalarProperty Name="InfluenceCoefficient" ColumnName="InfluenceCoefficient" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+				<ScalarProperty Name="SinistreeTypeNom" ColumnName="SinistreeTypeNom" />
+				<ScalarProperty Name="Influence" ColumnName="Influence" />
+				<ScalarProperty Name="Shape" ColumnName="Shape" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="SinistreeTypes">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.SinistreeType">
+			  <MappingFragment StoreEntitySet="SinistreeTypes">
+				<ScalarProperty Name="Nom" ColumnName="Nom" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="Utilisations">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.Utilisation">
+			  <MappingFragment StoreEntitySet="Utilisations">
+				<ScalarProperty Name="Id" ColumnName="Id" />
+				<ScalarProperty Name="UtilisationTypeNom" ColumnName="UtilisationTypeNom" />
+				<ScalarProperty Name="JuridiqueObjetGUID" ColumnName="JuridiqueObjetGUID" />
+				<ScalarProperty Name="Date" ColumnName="Date" />
+				<ScalarProperty Name="Document" ColumnName="Document" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="UtilisationTypes">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.UtilisationType">
+			  <MappingFragment StoreEntitySet="UtilisationTypes">
+				<ScalarProperty Name="Nom" ColumnName="Nom" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="JuridiqueTypes">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.JuridiqueType">
+			  <MappingFragment StoreEntitySet="JuridiqueTypes">
+				<ScalarProperty Name="Nom" ColumnName="Nom" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="ProprietaireAnciens">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.ProprietaireAncien">
+			  <MappingFragment StoreEntitySet="ProprietaireAncien">
+				<ScalarProperty Name="Id" ColumnName="Id" />
+				<ScalarProperty Name="TransactionGUID" ColumnName="TransactionGUID" />
+				<ScalarProperty Name="SujetGUID" ColumnName="SujetGUID" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="ProprietairePresumes">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.ProprietairePresume">
+			  <MappingFragment StoreEntitySet="ProprietairePresume">
+				<ScalarProperty Name="Id" ColumnName="Id" />
+				<ScalarProperty Name="TransactionGUID" ColumnName="TransactionGUID" />
+				<ScalarProperty Name="SujetGUID" ColumnName="SujetGUID" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="TransactionDocuments">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.TransactionDocument">
+			  <MappingFragment StoreEntitySet="TransactionDocuments">
+				<ScalarProperty Name="Id" ColumnName="Id" />
+				<ScalarProperty Name="TransactionDocumentTypeNom" ColumnName="TransactionDocumentTypeNom" />
+				<ScalarProperty Name="Date" ColumnName="Date" />
+				<ScalarProperty Name="Num" ColumnName="Num" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="TransactionDocumentTypes">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.TransactionDocumentType">
+			  <MappingFragment StoreEntitySet="TransactionDocumentTypes">
+				<ScalarProperty Name="Nom" ColumnName="Nom" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="TransactionObjets">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.TransactionObjet">
+			  <MappingFragment StoreEntitySet="TransactionObjets">
+				<ScalarProperty Name="Id" ColumnName="Id" />
+				<ScalarProperty Name="JuridiqueObjetGUID" ColumnName="JuridiqueObjetGUID" />
+				<ScalarProperty Name="TransactionGUID" ColumnName="TransactionGUID" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="Transactions">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.Transaction">
+			  <MappingFragment StoreEntitySet="Transactions">
+				<ScalarProperty Name="GUID" ColumnName="GUID" />
+				<ScalarProperty Name="MereTransactionGUID" ColumnName="MereTransactionGUID" />
+				<ScalarProperty Name="TransactionTypeNom" ColumnName="TransactionTypeNom" />
+				<ScalarProperty Name="TransactionDocumentId" ColumnName="TransactionDocumentId" />
+				<ScalarProperty Name="DebutDate" ColumnName="DebutDate" />
+				<ScalarProperty Name="FinDate" ColumnName="FinDate" />
+				<ScalarProperty Name="Observations" ColumnName="Observations" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="TransactionTypes">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.TransactionType">
+			  <MappingFragment StoreEntitySet="TransactionTypes">
+				<ScalarProperty Name="Nom" ColumnName="Nom" />
+				<ScalarProperty Name="JuridiqueTypeNom" ColumnName="JuridiqueTypeNom" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="Etats">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.Etat">
+			  <MappingFragment StoreEntitySet="Etats">
+				<ScalarProperty Name="Nom" ColumnName="Nom" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="SujetDocuments">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.SujetDocument">
+			  <MappingFragment StoreEntitySet="SujetDocument">
+				<ScalarProperty Name="Id" ColumnName="Id" />
+				<ScalarProperty Name="SujetGUID" ColumnName="SujetGUID" />
+				<ScalarProperty Name="SujetDocumentTypeNom" ColumnName="SujetDocumentTypeNom" />
+				<ScalarProperty Name="Date" ColumnName="Date" />
+				<ScalarProperty Name="Num" ColumnName="Num" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="SujetDocumentTypes">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.SujetDocumentType">
+			  <MappingFragment StoreEntitySet="SujetDocumentTypes">
+				<ScalarProperty Name="Nom" ColumnName="Nom" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="Sujets">
+			<EntityTypeMapping TypeName="IsTypeOf(gmaFFFFF.CadastrBenin.DAL.EFModel.Sujet)">
+			  <MappingFragment StoreEntitySet="Sujets">
+				<ScalarProperty Name="GUID" ColumnName="GUID" />
+				<ScalarProperty Name="Email" ColumnName="Email" />
+				<ScalarProperty Name="BP" ColumnName="BP" />
+				<ScalarProperty Name="Adresse" ColumnName="Adresse" />
+				<ScalarProperty Name="Telephone" ColumnName="Telephone" />
+				<ScalarProperty Name="Nationalite" ColumnName="Nationalite" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+			<EntityTypeMapping TypeName="IsTypeOf(gmaFFFFF.CadastrBenin.DAL.EFModel.Personne)">
+			  <MappingFragment StoreEntitySet="Personnes">
+				<ScalarProperty Name="NomEtPrenome" ColumnName="NomEtPrenome" />
+				<ScalarProperty Name="Profession" ColumnName="Profession" />
+				<ScalarProperty Name="NaissanceDate" ColumnName="NaissanceDate" />
+				<ScalarProperty Name="NaissanceLieu" ColumnName="NaissanceLieu" />
+				<ScalarProperty Name="Sexe" ColumnName="Sexe" />
+				<ScalarProperty Name="Prenoms" ColumnName="Prenoms" />
+				<ScalarProperty Name="Nom" ColumnName="Nom" />
+				
+				<ScalarProperty Name="GUID" ColumnName="GUID" />
+			  </MappingFragment>
+			  <MappingFragment StoreEntitySet="Sujets">
+				<ScalarProperty Name="GUID" ColumnName="GUID" />
+				<Condition ColumnName="SujetTypeNom" Value="Personne" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+			<EntityTypeMapping TypeName="IsTypeOf(gmaFFFFF.CadastrBenin.DAL.EFModel.Corporation)">
+			  <MappingFragment StoreEntitySet="Corporations">
+				<ScalarProperty Name="Nom" ColumnName="Nom" />
+				<ScalarProperty Name="GUID" ColumnName="GUID" />
+			  </MappingFragment>
+			  <MappingFragment StoreEntitySet="Sujets">
+				<ScalarProperty Name="GUID" ColumnName="GUID" />
+				<Condition ColumnName="SujetTypeNom" Value="Corporation" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="CadastraleDepartements_v">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.CadastraleDepartements_v">
+			  <MappingFragment StoreEntitySet="CadastraleDepartements_v">
+				<ScalarProperty Name="Numero" ColumnName="Numero" />
+				<ScalarProperty Name="Id" ColumnName="Id" />
+				<ScalarProperty Name="Nom" ColumnName="Nom" />
+				<ScalarProperty Name="Shape" ColumnName="Shape" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="CadastraleSecteurs_v">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.CadastraleSecteurs_v">
+			  <MappingFragment StoreEntitySet="CadastraleSecteurs_v">
+				<ScalarProperty Name="Numero" ColumnName="Numero" />
+				<ScalarProperty Name="Id" ColumnName="Id" />
+				<ScalarProperty Name="Nom" ColumnName="Nom" />
+				<ScalarProperty Name="Shape" ColumnName="Shape" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="CadastraleZones_v">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.CadastraleZones_v">
+			  <MappingFragment StoreEntitySet="CadastraleZones_v">
+				<ScalarProperty Name="Numero" ColumnName="Numero" />
+				<ScalarProperty Name="Id" ColumnName="Id" />
+				<ScalarProperty Name="Nom" ColumnName="Nom" />
+				<ScalarProperty Name="Shape" ColumnName="Shape" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="Immeubles_Parcelles_v">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.Immeubles_Parcelles_v">
+			  <MappingFragment StoreEntitySet="Immeubles_Parcelles_v">
+				<ScalarProperty Name="ParcelNUP" ColumnName="ParcelNUP" />
+				<ScalarProperty Name="ImmeublesCount" ColumnName="ImmeublesCount" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="Immeubles_v">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.Immeubles_v">
+			  <MappingFragment StoreEntitySet="Immeubles_v">
+				<ScalarProperty Name="NUP" ColumnName="NUP" />
+				<ScalarProperty Name="Nom" ColumnName="Nom" />
+				<ScalarProperty Name="PiecesNombre" ColumnName="PiecesNombre" />
+				<ScalarProperty Name="EtagesNombre" ColumnName="EtagesNombre" />
+				<ScalarProperty Name="Shape" ColumnName="Shape" />
+				<ScalarProperty Name="Superficie" ColumnName="Superficie" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="Parcelles_v">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.Parcelles_v">
+			  <MappingFragment StoreEntitySet="Parcelles_v">
+				<ScalarProperty Name="NUP" ColumnName="NUP" />
+				<ScalarProperty Name="SiArpentageFrontiere" ColumnName="SiArpentageFrontiere" />
+				<ScalarProperty Name="Shape" ColumnName="Shape" />
+				<ScalarProperty Name="Superficie" ColumnName="Superficie" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="Sinestree_Parcelles_v">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.Sinestree_Parcelles_v">
+			  <MappingFragment StoreEntitySet="Sinestree_Parcelles_v">
+				<ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="InfluenceCoefficient" ColumnName="InfluenceCoefficient" />
+                <ScalarProperty Name="NUP" ColumnName="NUP" />
+				<ScalarProperty Name="SinistreeTypeNom" ColumnName="SinistreeTypeNom" />
+				<ScalarProperty Name="Influence" ColumnName="Influence" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <EntitySetMapping Name="JuridiqueSituations_v">
+			<EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.JuridiqueSituations_v">
+			  <MappingFragment StoreEntitySet="JuridiqueSituations_v">
+				<ScalarProperty Name="NUP" ColumnName="NUP" />
+				<ScalarProperty Name="JuridiqueTypeNom" ColumnName="JuridiqueTypeNom" />
+				<ScalarProperty Name="ProprietarePresume" ColumnName="ProprietarePresume" />
+				<ScalarProperty Name="Nom" ColumnName="Nom" />
+				<ScalarProperty Name="Observations" ColumnName="Observations" />
+			  </MappingFragment>
+			</EntityTypeMapping>
+		  </EntitySetMapping>
+		  <FunctionImportMapping FunctionName="Хранилище gmaFFFFF.CadastrBenin.DAL.EFModel.ParseCadastralNumber" FunctionImportName="ParseCadastralNumber">
+			<ResultMapping>
+			  <ComplexTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.ParseCadastralNumber_Result">
+				<ScalarProperty Name="DepartmentInd" ColumnName="DepartmentInd" />
+				<ScalarProperty Name="ZoneInd" ColumnName="ZoneInd" />
+				<ScalarProperty Name="SectorInd" ColumnName="SectorInd" />
+				<ScalarProperty Name="ParcelInd" ColumnName="ParcelInd" />
+				<ScalarProperty Name="BuildingInd" ColumnName="BuildingInd" />
+				<ScalarProperty Name="ZoneNum" ColumnName="ZoneNum" />
+				<ScalarProperty Name="SectorNum" ColumnName="SectorNum" />
+				<ScalarProperty Name="ParcelNum" ColumnName="ParcelNum" />
+				<ScalarProperty Name="BuildingNum" ColumnName="BuildingNum" />
+			  </ComplexTypeMapping>
+			</ResultMapping>
+		  </FunctionImportMapping>
+          <EntitySetMapping Name="Parcel_ImmeubleIntersect">
+            <EntityTypeMapping TypeName="gmaFFFFF.CadastrBenin.DAL.EFModel.Parcel_ImmeubleIntersect">
+              <MappingFragment StoreEntitySet="Parcel_ImmeubleIntersect">
+                <ScalarProperty Name="ImmeubleShape" ColumnName="ImmeubleShape" />
+                <ScalarProperty Name="ParcelShape" ColumnName="ParcelShape" />
+                <ScalarProperty Name="ImmeubleNUP" ColumnName="ImmeubleNUP" />
+                <ScalarProperty Name="ParcelNUP" ColumnName="ParcelNUP" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+		</EntityContainerMapping>
+	  </Mapping>
+	</edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+	<Connection>
+	  <DesignerInfoPropertySet>
+		<DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+	  </DesignerInfoPropertySet>
+	</Connection>
+	<Options>
+	  <DesignerInfoPropertySet>
+		<DesignerProperty Name="ValidateOnBuild" Value="true" />
+		<DesignerProperty Name="EnablePluralization" Value="true" />
+		<DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+		<DesignerProperty Name="UseLegacyProvider" Value="false" />
+		<DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+	  </DesignerInfoPropertySet>
+	</Options>
+	<!-- Diagram content (shape and connector positions) -->
+	<Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

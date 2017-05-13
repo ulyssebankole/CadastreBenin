@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>gmaFFFFF.CadastrBenin.DB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{2ff7185b-bdbf-4bdc-9a9e-1c7a01385c83}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>gmaFFFFF.CadastrBenin.DB</RootNamespace>
+    <AssemblyName>gmaFFFFF.CadastrBenin.DB</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <AssemblyOwner>dbo</AssemblyOwner>
+    <TargetFrameworkProfile />
+    <DefaultSchema>Services</DefaultSchema>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Cadastre\" />
+    <Folder Include="Cadastre\Tables\" />
+    <Folder Include="Juridique\" />
+    <Folder Include="Juridique\Tables\" />
+    <Folder Include="Sujet\" />
+    <Folder Include="Sujet\Tables\" />
+    <Folder Include="Cadastre\Views\" />
+    <Folder Include="Juridique\Views\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\Functions\" />
+    <Folder Include="Cadastre\Functions\" />
+    <Folder Include="Assemblies\" />
+    <Folder Include="Security\" />
+    <Folder Include="Data" />
+    <Folder Include="Scripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Cadastre\Tables\CadastraleDivisions.sql" />
+    <Build Include="Cadastre\Tables\JuridiqueObjetTypes.sql" />
+    <Build Include="Cadastre\Tables\JuridiqueObjets.sql" />
+    <Build Include="Cadastre\Tables\Parcelles.sql" />
+    <Build Include="Cadastre\Tables\CertificationDocumentTypes.sql" />
+    <Build Include="Cadastre\Tables\CertificationDocuments.sql" />
+    <Build Include="Cadastre\Tables\Immeubles.sql" />
+    <Build Include="Cadastre\Tables\Impots.sql" />
+    <Build Include="Cadastre\Tables\SinistreeTypes.sql" />
+    <Build Include="Cadastre\Tables\SinistreeRegions.sql" />
+    <Build Include="Cadastre\Tables\UtilisationTypes.sql" />
+    <Build Include="Cadastre\Tables\Utilisations.sql" />
+    <Build Include="Juridique\Tables\JuridiqueTypes.sql" />
+    <Build Include="Juridique\Tables\TransactionTypes.sql" />
+    <Build Include="Juridique\Tables\TransactionDocumentTypes.sql" />
+    <Build Include="Juridique\Tables\TransactionDocuments.sql" />
+    <Build Include="Juridique\Tables\Transactions.sql" />
+    <Build Include="Sujet\Tables\SujetTypes.sql" />
+    <Build Include="Sujet\Tables\Etats.sql" />
+    <Build Include="Sujet\Tables\Sujets.sql" />
+    <Build Include="Juridique\Tables\ProprietaireAncien.sql" />
+    <Build Include="Juridique\Tables\ProprietairePresume.sql" />
+    <Build Include="Juridique\Tables\TransactionObjets.sql" />
+    <Build Include="Sujet\Tables\Corporations.sql" />
+    <Build Include="Sujet\Tables\Personnes.sql" />
+    <Build Include="Sujet\Tables\SujetDocumentTypes.sql" />
+    <Build Include="Sujet\Tables\SujetDocument.sql" />
+    <Build Include="Cadastre\Views\CadastraleDepartements_v.sql" />
+    <Build Include="Cadastre\Views\CadastraleSecteurs_v.sql" />
+    <Build Include="Cadastre\Views\CadastraleZones_v.sql" />
+    <Build Include="Cadastre\Views\Immeubles_Parcelles_v.sql" />
+    <Build Include="Cadastre\Views\Immeubles_v.sql" />
+    <Build Include="Cadastre\Views\Parcelles_v.sql" />
+    <Build Include="Cadastre\Views\Sinestree_Parcelles_v.sql" />
+    <Build Include="Juridique\Views\JuridiqueSituations_v.sql" />
+    <Build Include="Cadastre\Functions\AsciiLetter2IntNumber.sql" />
+    <Build Include="Cadastre\Functions\IntNumber2AsciiLetter.sql" />
+    <Build Include="Cadastre\Functions\ExtractBuildingNumberInParcel.sql" />
+    <Build Include="Cadastre\Functions\ExtractCadSectorNumber.sql" />
+    <Build Include="Cadastre\Functions\ExtractParcelCadastralNumber.sql" />
+    <Build Include="Cadastre\Functions\ExtractParcelNumberInCadSector.sql" />
+    <Build Include="Cadastre\Functions\GenerateNextBuildingNumber.sql" />
+    <Build Include="Cadastre\Functions\GenerateNextParcelNumber.sql" />
+    <Build Include="Cadastre\Functions\CadastrDevisionHierarchyid2Name.sql" />
+    <Build Include="Cadastre\Functions\FindParentCadSector.sql" />
+    <Build Include="Cadastre\Functions\FindParentParcel.sql" />
+    <Build Include="Cadastre\Functions\AssignCadastralNumberBuilding.sql" />
+    <Build Include="Cadastre\Functions\AssignCadastralNumberParcel.sql" />
+    <Build Include="Cadastre\Functions\ParseCadastralNumber.sql" />
+    <Build Include="Security\Cadastre.sql" />
+    <Build Include="Security\Juridique.sql" />
+    <Build Include="Security\Sujet.sql" />
+    <None Include="Data\1.Справочники.sql" />
+    <None Include="Data\2.зу.sql" />
+    <None Include="Data\3.здания.sql" />
+    <None Include="Data\4.собственники.sql" />
+    <None Include="Scripts\ScriptsIgnoredOnImport.sql" />
+    <Build Include="Security\Services.sql" />
+    <Build Include="Cadastre\Views\Parcel_ImmeubleIntersect.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Data\Script.PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Services\Functions\RegularExpressionFunctions.cs" />
+    <Compile Include="Services\Functions\SqlGeometryFunctions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.SqlServer.Types">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\120\SDK\Assemblies\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\5.Смещение.sql" />
+  </ItemGroup>
+</Project>
