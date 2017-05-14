@@ -104,9 +104,11 @@
     <Compile Include="Model\DBContextFactory.cs" />
     <Compile Include="Model\ProxyReferences.cs" />
     <Compile Include="Services\Comparers.cs" />
+    <Compile Include="Services\Extensions.cs" />
     <Compile Include="ViewModel\MapViewModel.cs" />
     <Compile Include="Model\ParcelModel.cs" />
     <Compile Include="ViewModel\MyViewModelBase.cs" />
+    <Compile Include="ViewModel\EditParcelGeometryViewModel.cs" />
     <Compile Include="ViewModel\ParcelEditViewModel.cs" />
     <Compile Include="ViewModel\ReferenceViewModel.cs" />
     <Compile Include="ViewModelLocator.cs" />

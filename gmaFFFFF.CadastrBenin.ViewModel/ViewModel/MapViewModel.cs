@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using gmaFFFFF.CadastrBenin.DAL;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Threading;
@@ -140,7 +141,8 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 					//Подготовка запроса к БД
 					var ParcelFullDB = FindContextDB
 						.JuridiqueObjets.OfType<Parcelle>()
-						.Include(i => i.Impots).Include(ut => ut.Utilisations)
+						//.Include(i => i.Impots).Include(ut => ut.Utilisations)		//Данный запрос не всегда срабатывает, поэтому доп загрузка дана ниже
+																						//Офигеваю от Микрософта!
 						.GroupJoin(FindContextDB.Sinestree_Parcelles_v, p => p.NUP, s => s.NUP,
 							(p, ss) => new {Parcel = p, Sinistrees = ss})
 						.GroupJoin(FindContextDB.JuridiqueSituations_v, p => p.Parcel.NUP, j => j.NUP,
@@ -159,11 +161,20 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 									Buildings = i
 								});
 
+					
 					//Выполняем запрос к БД
 					var parcelsDB = await ParcelFullDB.Where(p => p.Parcel.NUP.StartsWith(num))
 						.OrderBy(p=>p.Parcel.NUP)
 						.Take(FindedParcelsMaxCount)
 						.ToListAsync(cancelToken);
+
+					//Так как операция Include в запросе не всегда срабатывает, то выполнем явную загрузку
+					foreach (var parcel in parcelsDB)
+					{
+						parcel.Parcel.Impots.ToList();
+						parcel.Parcel.Utilisations.ToList();
+					}
+
 
 					//Проецируем результат запроса к БД во внутреннее представление земельных участков
 					var parcels = parcelsDB.AsParallel().Select(p => new ParcelModel

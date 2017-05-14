@@ -4,6 +4,7 @@ using System.Windows.Input;
 using gmaFFFFF.CadastrBenin.ViewModel.Model;
 using Microsoft.Maps.MapControl.WPF;
 using Hardcodet.Wpf.Util;
+using gmaFFFFF.CadastrBenin.DAL;
 
 namespace gmaFFFFF.CadastrBenin.DesktopApp
 {
@@ -99,8 +100,13 @@ namespace gmaFFFFF.CadastrBenin.DesktopApp
 		}
 		#endregion
 
-
-
-		
+		private void EditParcelGeometry_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (Parcels.SelectedItem == null)
+				return;
+			Parcelle parcel = (Parcelle) Parcels.SelectedItem;
+			EditParcelGeometryWindow win = new EditParcelGeometryWindow(parcel);
+			win.ShowDialog();
+		}
 	}
 }

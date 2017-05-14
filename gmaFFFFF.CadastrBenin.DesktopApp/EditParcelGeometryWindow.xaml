@@ -1,0 +1,30 @@
+﻿<Window x:Class="gmaFFFFF.CadastrBenin.DesktopApp.EditParcelGeometryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:gmaFFFFF.CadastrBenin.DesktopApp"
+        mc:Ignorable="d"
+        Title="Редактор геометрии" Height="300" Width="300">
+    <Window.DataContext>
+        <Binding Source="{StaticResource ViewModelLocator}"/>
+    </Window.DataContext>
+    <Window.Resources>
+        <local:SqlGeometryConverter x:Key="SqlGeometryConverter"/>
+    </Window.Resources>
+    <Grid DataContext="{Binding ParcelGeometryViewModelEditor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Пожалуйста определите геометрию в формате WKT:" HorizontalAlignment="Center"/>
+            <TextBox x:Name="Wkt" TextWrapping="Wrap" MinLines="5" MaxLines="10" Text="{Binding Parcel, Converter={StaticResource SqlGeometryConverter}, UpdateSourceTrigger=Explicit}"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button Margin="5" Content="Сохранить" IsDefault="True" Click="Save_OnClick"/>
+            <Button Margin="5" Content="Отменить" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</Window>

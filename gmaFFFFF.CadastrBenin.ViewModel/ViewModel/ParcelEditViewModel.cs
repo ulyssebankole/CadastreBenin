@@ -70,7 +70,16 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 		/// <summary>
 		/// Сохраняет все внесенные изменения
 		/// </summary>
-		protected void SaveChanges() { if (SaveUndoCommandCanExecute) ContextDb.SaveChanges(); }
+		protected void SaveChanges()
+		{
+			if (!SaveUndoCommandCanExecute)
+				return;
+			
+			DeleteDetailRecordTogetherRelationship();
+
+			ContextDb.SaveChanges();
+			
+		}
 		/// <summary>
 		/// Отменяет все внесенные изменения
 		/// </summary>
@@ -78,6 +87,9 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 		{
 			if (!SaveUndoCommandCanExecute)
 				return;
+
+			DeleteDetailRecordTogetherRelationship();
+
 			ContextDb.DiscardAllChanges();
 			RaisePropertyChanged(nameof(Parcels));
 		}
@@ -161,9 +173,7 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 												).ToList();
 
 			
-			//Обновляем изменившиеся справочники
-			if (oldUtilisations.Any())
-			{
+
 				ContextDb.UtilisationTypes.Load();
 				UtilisationTypes = new ObservableCollection<UtilisationType>(ContextDb.UtilisationTypes.Local);
 				//Убираем из справочника устаревшие значения
@@ -171,9 +181,7 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 				{
 					UtilisationTypes.Remove(UtilisationTypes.Where(d => d.Nom == old.Nom).Single());
 				}
-			}
-			if (oldCertificationDocumentTypes.Any())
-			{
+
 				ContextDb.CertificationDocumentTypes.Load();
 				CertificationDocumentTypes = new ObservableCollection<CertificationDocumentType>(ContextDb.CertificationDocumentTypes.Local);
 				//Убираем из справочника устаревшие значения
@@ -181,7 +189,7 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 				{
 					CertificationDocumentTypes.Remove(CertificationDocumentTypes.Where(d=>d.Nom == old.Nom).Single());
 				}
-			}
+
 
 			//Обновляем участки, затронутые изменениями
 			foreach (var parcel in oldParcels)
@@ -204,6 +212,43 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 			RaisePropertyChanged(nameof(UtilisationTypes));
 			RaisePropertyChanged(nameof(Parcels));
 		}
+		/// <summary>
+		/// Удаляет записи из подчиненных таблиц у которых datagrid удалил только связь
+		/// </summary>
+		protected void DeleteDetailRecordTogetherRelationship()
+		{
+			//Удаляем не связанные с Master-table разрешенные использования
+			var delUtil = ContextDb.ChangeTracker.Entries<Utilisation>()
+									.Where(u => u.State == EntityState.Modified)
+									.Where(u=> u.Entity.JuridiqueObjet == null)
+									.ToList();
+			foreach (var del in delUtil)
+			{
+				del.State = EntityState.Deleted;
+			}
+			
+			//Удаляем не связанные с Master-table правоудостоверяющие документы
+			var delDoc = ContextDb.ChangeTracker.Entries<CertificationDocument>()
+									.Where(u => u.State == EntityState.Modified)
+									.Where(u => u.Entity.Parcelle == null)
+									.ToList();
+			foreach (var del in delDoc)
+			{
+				del.State = EntityState.Deleted;
+			}
+
+			//Удаляем не связанные с Master-table налоги
+			var delimpot = ContextDb.ChangeTracker.Entries<Impot>()
+									.Where(u => u.State == EntityState.Modified)
+									.Where(u => u.Entity.Parcelle == null)
+									.ToList();
+			foreach (var del in delimpot)
+			{
+				del.State = EntityState.Deleted;
+			}
+
+		}
+
 
 		#region Публичные поля для привязки данных
 		/// <summary>

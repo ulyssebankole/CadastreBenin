@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using Microsoft.SqlServer.Types;
 
 namespace gmaFFFFF.CadastrBenin.DesktopApp
 {
@@ -105,4 +107,30 @@ namespace gmaFFFFF.CadastrBenin.DesktopApp
 				return value;
 		}
 	}
+	/// <summary>
+	/// Конвертирует геометрию в текстовый формат WKT
+	/// </summary>
+	[ValueConversion(typeof(SqlGeometry), typeof(string))]
+	public class SqlGeometryConverter : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (value == null)
+				return "";
+			SqlGeometry geom = (SqlGeometry) value;
+			return new string(geom.STAsText().Value);
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (value == null)
+				return null;
+			if ((string)value == "")
+				return new SqlGeometry();
+			
+			SqlChars wkt = new SqlChars(((string)value).ToCharArray());
+			return SqlGeometry.STGeomFromText(wkt, 32631).MakeValid();
+		}
+	}
+
 }

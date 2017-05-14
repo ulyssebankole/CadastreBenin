@@ -39,6 +39,26 @@
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>
+        <Path x:Key="EditIcon" Data="M0,22.691865L9.6958332,27.864942 0.24500618,32.000013z M8.8988495,6.3116251L18.869686,12.034729 11.211813,25.370919 10.644821,23.665877 7.7198686,23.364879 7.2188854,21.531844 4.3549361,21.429853 3.5479436,19.422835 1.2459807,19.647815z M13.690775,0.00052993685C13.965764,-0.0064584891,14.233765,0.055554115,14.474758,0.19355655L21.534634,4.2476002C22.392622,4.7375976,22.586618,6.0146238,21.968632,7.0966398L21.126636,8.5616571 10.95782,2.7255753 11.799801,1.2555529C12.243793,0.48054798,12.988775,0.017528671,13.690775,0.00052993685z" Stretch="Uniform" Fill="#FF105CFF" Width="16" Height="16" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <TransformGroup.Children>
+                        <RotateTransform Angle="0" />
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </TransformGroup.Children>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path x:Key="NewIcon"  Data="M1.5599976,19.225006L13.84201,19.225006 13.787018,19.369003C13.364014,20.522003 13.132996,21.766998 13.132996,23.065002 13.132996,24.363007 13.364014,25.608002 13.787018,26.761002L13.84201,26.904999 1.5599976,26.904999C0.69900513,26.904999,0,26.205002,0,25.345001L0,20.783005C0,19.923004,0.69900513,19.225006,1.5599976,19.225006z M22.575012,17.796997L22.575012,21.979004 18.393005,21.979004 18.393005,24.630005 22.575012,24.630005 22.575012,28.811996 25.226013,28.811996 25.226013,24.630005 29.40802,24.630005 29.40802,21.979004 25.226013,21.979004 25.226013,17.796997z M23.894012,14.957993C28.371002,14.957993 32,18.585999 32,23.065002 32,27.539001 28.371002,31.169998 23.894012,31.169998 19.416992,31.169998 15.787994,27.539001 15.787994,23.065002 15.787994,18.585999 19.416992,14.957993 23.894012,14.957993z M1.5599976,9.5269928L23.382019,9.5269928C24.243011,9.5269928,24.94101,10.225006,24.94101,11.085007L24.94101,12.354004 24.720001,12.335007C24.446991,12.313995 24.171997,12.302994 23.894012,12.302994 20.186005,12.302994 16.908997,14.188995 14.973999,17.052002L14.876007,17.203995 1.5599976,17.203995C0.69900513,17.203995,0,16.505997,0,15.645004L0,11.085007C0,10.225006,0.69900513,9.5269928,1.5599976,9.5269928z M4.5920105,2.0679932C3.6170044,2.0679932 2.821991,2.8619995 2.821991,3.8379974 2.821991,4.8159943 3.6170044,5.6080017 4.5920105,5.6080017 5.5679932,5.6080017 6.3619995,4.8159943 6.3619995,3.8379974 6.3619995,2.8619995 5.5679932,2.0679932 4.5920105,2.0679932z M1.5599976,0L23.382019,0C24.243011,0,24.94101,0.69799805,24.94101,1.5579987L24.94101,6.1199951C24.94101,6.9819946,24.243011,7.6779938,23.382019,7.6779938L1.5599976,7.6779938C0.69900513,7.6779938,0,6.9819946,0,6.1199951L0,1.5579987C0,0.69799805,0.69900513,0,1.5599976,0z" Stretch="Uniform" Fill="#FF105CFF" Width="16" Height="16" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <TransformGroup.Children>
+                        <RotateTransform Angle="0" />
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </TransformGroup.Children>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
         <DataTemplate x:Key="ColomnDateDataGridTemplateColumn">
             <TextBlock Text="{Binding Date, StringFormat={}{0:yyyy.MM.dd}, Converter={StaticResource OneYearDateConverter}}"/>
         </DataTemplate>
@@ -375,15 +395,22 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <DataGrid x:Name="Parcels" DataContext="{Binding ParcelsViewSource}" ItemsSource="{Binding}" EnableRowVirtualization="true" AutoGenerateColumns="False" IsReadOnly="True">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding CadSecteurNumero}" Header="Номер района"/>
-                            <DataGridTextColumn Binding="{Binding ParcelleSurCadSecteurNumero}" Header="Номер участка"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <StackPanel Grid.Column="2" DataContext="{Binding ParcelsViewSource}">
+                    
+                    <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" >
+                        <Button Content="{StaticResource NewIcon}" Margin="3" ToolTip="Новый участок" />
+                        <Button Content="{StaticResource EditIcon}" Margin="3" ToolTip="Редактировать участок" Click="EditParcelGeometry_OnClick" />
+                    </StackPanel>
+                    <DataGrid x:Name="Parcels" Grid.Column="0" Grid.Row="1" DataContext="{Binding ParcelsViewSource}" ItemsSource="{Binding}" EnableRowVirtualization="true" AutoGenerateColumns="False" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding CadSecteurNumero}" Header="Номер района"/>
+                                <DataGridTextColumn Binding="{Binding ParcelleSurCadSecteurNumero}" Header="Номер участка"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    
+                    <StackPanel Grid.Column="2" Grid.Row="1" DataContext="{Binding ParcelsViewSource}">
                         <TextBlock Text="Разрешенное использование" FontWeight="Bold" HorizontalAlignment="Center"/>
                         <DataGrid x:Name="UtilisationsGrid" ItemsSource="{Binding Utilisations}" EnableRowVirtualization="true" AutoGenerateColumns="False">
                             <DataGrid.Columns>
