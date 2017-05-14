@@ -115,6 +115,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Services\Converters.cs" />
+    <Compile Include="Services\UIHelper.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -157,6 +158,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\gmaFFFFF.CadastrBenin.DAL\gmaFFFFF.CadastrBenin.DAL.csproj">
+      <Project>{04B90726-1EF6-4B3C-8304-1D9596FC6468}</Project>
+      <Name>gmaFFFFF.CadastrBenin.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\gmaFFFFF.CadastrBenin.ViewModel\gmaFFFFF.CadastrBenin.ViewModel.csproj">
       <Project>{808b1d4d-7dfb-4f08-98c3-426613f29009}</Project>
       <Name>gmaFFFFF.CadastrBenin.ViewModel</Name>

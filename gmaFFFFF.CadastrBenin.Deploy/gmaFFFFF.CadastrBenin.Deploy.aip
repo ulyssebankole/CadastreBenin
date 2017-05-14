@@ -10,10 +10,11 @@
     <ROW Property="AI_ImagesColor" Value="powderblue" MultiBuildValue="DefaultBuild:chrome" MsiKey="AI_ImagesColor"/>
     <ROW Property="AI_SecondColor" Value="default" MultiBuildValue="DefaultBuild:red" MsiKey="AI_SecondColor"/>
     <ROW Property="AI_ThemeStyle" Value="default" MultiBuildValue="DefaultBuild:red-waves" MsiKey="AI_ThemeStyle"/>
-    <ROW Property="ALLUSERS" Value="1"/>
+    <ROW Property="ALLUSERS" Value="1" MultiBuildValue="DefaultBuild:"/>
     <ROW Property="ARPCOMMENTS" Value="Эта база данных установщика содержит логику и данные, необходимые для установки [|[ProductName]." ValueLocId="*"/>
     <ROW Property="ARPCONTACT" Value="Ulysse BANKOLE"/>
     <ROW Property="ARPPRODUCTICON" Value="FlagBenin.exe" Type="8"/>
+    <ROW Property="ARPURLINFOABOUT" Value="https://github.com/ulyssebankole/CadastreBenin"/>
     <ROW Property="AiFeatIcoMainFeature" Value="FlagBenin.exe" Type="8"/>
     <ROW Property="Manufacturer" Value="МИИГАиК"/>
     <ROW Property="MsiLogging" MultiBuildValue="DefaultBuild:vp"/>
@@ -79,10 +80,11 @@
     <ROW File="GalaSoft.MvvmLight.Extras.dll" Component_="GalaSoft.MvvmLight.Extras.dll" FileName="GALASO~2.DLL|GalaSoft.MvvmLight.Extras.dll" Attributes="0" SourcePath="..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Extras.dll" SelfReg="false" NextFile="GalaSoft.MvvmLight.Platform.dll"/>
     <ROW File="GalaSoft.MvvmLight.Platform.dll" Component_="GalaSoft.MvvmLight.Platform.dll" FileName="GALASO~3.DLL|GalaSoft.MvvmLight.Platform.dll" Attributes="0" SourcePath="..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll" SelfReg="false" NextFile="gmaFFFFF.CadastrBenin.DesktopApp.exe"/>
     <ROW File="GalaSoft.MvvmLight.dll" Component_="GalaSoft.MvvmLight.dll" FileName="GALASO~1.DLL|GalaSoft.MvvmLight.dll" Attributes="0" SourcePath="..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.dll" SelfReg="false" NextFile="GalaSoft.MvvmLight.Extras.dll"/>
+    <ROW File="License.rtf" Component_="FlagBenin.ico" FileName="License.rtf" Attributes="0" SourcePath="..\License.rtf" SelfReg="false"/>
     <ROW File="Microsoft.Maps.MapControl.WPF.dll" Component_="Microsoft.Maps.MapControl.WPF.dll" FileName="MICROS~2.DLL|Microsoft.Maps.MapControl.WPF.dll" Attributes="0" SourcePath="..\packages\Microsoft.Maps.MapControl.WPF.1.0.0.3\lib\net40-Client\Microsoft.Maps.MapControl.WPF.dll" SelfReg="false" NextFile="DotSpatial.Serialization.dll"/>
     <ROW File="Microsoft.Practices.ServiceLocation.dll" Component_="Microsoft.Practices.ServiceLocation.dll" FileName="MICROS~3.DLL|Microsoft.Practices.ServiceLocation.dll" Attributes="0" SourcePath="..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll" SelfReg="false" NextFile="gmaFFFFF.CadastrBenin.ViewModel.dll"/>
     <ROW File="SearchTextBox.dll" Component_="SearchTextBox.dll" FileName="SEARCH~1.DLL|SearchTextBox.dll" Attributes="0" SourcePath="..\UserControl\SearchTextBox\bin\Release\SearchTextBox.dll" SelfReg="false" NextFile="gmaFFFFF.CadastrBenin.Deploy.Settings.exe.config"/>
-    <ROW File="SplashScreen.jpg" Component_="FlagBenin.ico_2" FileName="SPLASH~1.JPG|SplashScreen.jpg" Attributes="0" SourcePath="..\gmaFFFFF.CadastrBenin.DesktopApp\img\SplashScreen.jpg" SelfReg="false"/>
+    <ROW File="SplashScreen.jpg" Component_="FlagBenin.ico_2" FileName="SPLASH~1.JPG|SplashScreen.jpg" Attributes="0" SourcePath="..\gmaFFFFF.CadastrBenin.DesktopApp\img\SplashScreen.jpg" SelfReg="false" NextFile="License.rtf"/>
     <ROW File="gmaFFFFF.CadastrBenin.DAL.dll" Component_="gmaFFFFF.CadastrBenin.DAL.dll" FileName="GMAFFF~1.DLL|gmaFFFFF.CadastrBenin.DAL.dll" Attributes="0" SourcePath="..\gmaFFFFF.CadastrBenin.DAL\bin\Release\gmaFFFFF.CadastrBenin.DAL.dll" SelfReg="false" NextFile="DotSpatial.Topology.dll"/>
     <ROW File="gmaFFFFF.CadastrBenin.Deploy.Settings.exe" Component_="gmaFFFFF.CadastrBenin.Deploy.Settings.ex" FileName="GMAFFF~1.EXE|gmaFFFFF.CadastrBenin.Deploy.Settings.exe" Attributes="0" SourcePath="..\gmaFFFFF.CadastrBenin.Deploy.Settings\bin\Release\gmaFFFFF.CadastrBenin.Deploy.Settings.exe" SelfReg="false" NextFile="SearchTextBox.dll" DigSign="true"/>
     <ROW File="gmaFFFFF.CadastrBenin.Deploy.Settings.exe.config" Component_="FlagBenin.ico" FileName="GMAFFF~1.CON|gmaFFFFF.CadastrBenin.Deploy.Settings.exe.config" Attributes="0" SourcePath="..\gmaFFFFF.CadastrBenin.Deploy.Settings\bin\Release\gmaFFFFF.CadastrBenin.Deploy.Settings.exe.config" SelfReg="false" NextFile="CadastrBenin.mdf"/>
@@ -100,6 +102,7 @@
   <COMPONENT cid="caphyon.advinst.msicomp.FragmentComponent">
     <ROW Fragment="CommonUI.aip" Path="&lt;AI_FRAGS&gt;CommonUI.aip"/>
     <ROW Fragment="FolderDlg.aip" Path="&lt;AI_THEMES&gt;graphite\fragments\FolderDlg.aip"/>
+    <ROW Fragment="LicenseAgreementDlg.aip" Path="&lt;AI_THEMES&gt;graphite\fragments\LicenseAgreementDlg.aip"/>
     <ROW Fragment="MaintenanceTypeDlg.aip" Path="&lt;AI_THEMES&gt;graphite\fragments\MaintenanceTypeDlg.aip"/>
     <ROW Fragment="MaintenanceWelcomeDlg.aip" Path="&lt;AI_THEMES&gt;graphite\fragments\MaintenanceWelcomeDlg.aip"/>
     <ROW Fragment="PreparePrereqDlg.aip" Path="&lt;AI_THEMES&gt;graphite\fragments\PreparePrereqDlg.aip"/>
@@ -121,6 +124,7 @@
     <ROW Name="viewer.exe" SourcePath="&lt;AI_CUSTACTS&gt;viewer.exe"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlComponent">
+    <ROW Dialog_="LicenseAgreementDlg" Control="AgreementText" Type="ScrollableText" X="175" Y="104" Width="323" Height="120" Attributes="7" Text="..\License.rtf" Order="400" TextLocId="Control.Text.LicenseAgreementDlg#AgreementText" MsiKey="LicenseAgreementDlg#AgreementText"/>
     <ROW Dialog_="WelcomePrereqDlg" Control="Description" Type="Text" X="175" Y="89" Width="323" Height="220" Attributes="196611" Text="Программа установки определила, что некоторые необходимые условия для запуска [ProductName] отсутствуют. Этот мастер поможет вам в получении и установке этих условий. Нажмите кнопку &quot;[Text_Next]&quot; для продолжения или &quot;[ButtonText_Cancel]&quot;, чтобы закрыть [Wizard]." Order="800" TextLocId="Control.Text.WelcomePrereqDlg#Description" MsiKey="WelcomePrereqDlg#Description"/>
     <ROW Dialog_="WelcomePrereqDlg" Control="PreparingLabel" Type="Text" X="35" Y="114" Width="104" Height="11" Attributes="196611" Text="Подготовка к установке" TextStyle="Labels" Order="900" TextLocId="Graphite.Control.Text.Dlg#PreparingLabel" MsiKey="WelcomePrereqDlg#PreparingLabel"/>
     <ROW Dialog_="WelcomePrereqDlg" Control="InstallingLabel" Type="Text" X="35" Y="138" Width="104" Height="11" Attributes="196611" Text="Установка" TextStyle="Labels" Order="1000" TextLocId="Graphite.Control.Text.Dlg#InstallingLabel" MsiKey="WelcomePrereqDlg#InstallingLabel"/>
@@ -130,9 +134,9 @@
     <ROW Dialog_="WelcomePrereqDlg" Control_="Next" Event="NewDialog" Argument="PrerequisitesDlg" Condition="AI_BOOTSTRAPPER" Ordering="1"/>
     <ROW Dialog_="PrerequisitesDlg" Control_="Next" Event="EndDialog" Argument="Return" Condition="AI_BOOTSTRAPPER" Ordering="1"/>
     <ROW Dialog_="PrerequisitesDlg" Control_="Back" Event="NewDialog" Argument="WelcomePrereqDlg" Condition="AI_BOOTSTRAPPER" Ordering="1"/>
-    <ROW Dialog_="WelcomeDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_INSTALL" Ordering="3"/>
+    <ROW Dialog_="WelcomeDlg" Control_="Next" Event="NewDialog" Argument="LicenseAgreementDlg" Condition="AI_INSTALL" Ordering="3"/>
     <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_INSTALL" Ordering="197"/>
-    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="WelcomeDlg" Condition="AI_INSTALL" Ordering="201"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="LicenseAgreementDlg" Condition="AI_INSTALL" Ordering="201"/>
     <ROW Dialog_="MaintenanceWelcomeDlg" Control_="Next" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT" Ordering="99"/>
     <ROW Dialog_="CustomizeDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_MAINT" Ordering="101"/>
     <ROW Dialog_="CustomizeDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT" Ordering="1"/>
@@ -153,9 +157,11 @@
     <ROW Dialog_="WelcomeDlg" Control_="Next" Event="[FolderDlg_Cond]" Argument="1" Condition="0" Ordering="2"/>
     <ROW Dialog_="WelcomeDlg" Control_="Next" Event="[FolderDlg_Cond]" Argument="{}" Condition="1" Ordering="1"/>
     <ROW Dialog_="WelcomeDlg" Control_="Next" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL AND FolderDlg_Cond" Ordering="4"/>
-    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL AND FolderDlg_Cond" Ordering="202"/>
-    <ROW Dialog_="FolderDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_INSTALL AND FolderDlg_Cond" Ordering="201"/>
+    <ROW Dialog_="FolderDlg" Control_="Next" Event="NewDialog" Argument="LicenseAgreementDlg" Condition="AI_INSTALL AND FolderDlg_Cond" Ordering="201"/>
     <ROW Dialog_="FolderDlg" Control_="Back" Event="NewDialog" Argument="WelcomeDlg" Condition="AI_INSTALL AND FolderDlg_Cond" Ordering="1"/>
+    <ROW Dialog_="LicenseAgreementDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="LicenseAgreementDlg" Control_="Back" Event="NewDialog" Argument="WelcomeDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="LicenseAgreementDlg" Control_="Back" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL AND FolderDlg_Cond" Ordering="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCreateFolderComponent">
     <ROW Directory_="SHORTCUTDIR" Component_="SHORTCUTDIR" ManualDelete="false"/>
@@ -174,7 +180,7 @@
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
     <ROW Action="LaunchFile" Type="2" Source="viewer.exe" Target="&quot;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe&quot; start mssqllocal" Options="1"/>
-    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="DefaultBuild:[LocalAppDataFolder][Manufacturer]\[ProductName]"/>
+    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="DefaultBuild:[AppDataFolder][Manufacturer]\[ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
     <ROW Action="gmaFFFFF.CadastrBenin.Deploy.Settings.exe" Type="18" Source="gmaFFFFF.CadastrBenin.Deploy.Settings.exe"/>
@@ -184,7 +190,7 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
-    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
+    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="748"/>
     <ROW Action="AI_STORE_LOCATION" Condition="(Not Installed) OR REINSTALL" Sequence="1501"/>
     <ROW Action="AI_PREPARE_UPGRADE" Condition="AI_UPGRADE=&quot;No&quot; AND (Not Installed)" Sequence="1399"/>
     <ROW Action="AI_ResolveKnownFolders" Sequence="52"/>
@@ -192,7 +198,7 @@
     <ROW Action="AI_AppSearchEx" Sequence="101"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
-    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
+    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="748"/>
     <ROW Action="AI_ResolveKnownFolders" Sequence="53"/>
     <ROW Action="AI_DpiContentScale" Sequence="52"/>
     <ROW Action="AI_EnableDebugLog" Sequence="51"/>

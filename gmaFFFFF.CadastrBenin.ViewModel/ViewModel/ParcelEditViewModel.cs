@@ -1,30 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Spatial;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using DotSpatial.Projections;
-using DotSpatial.Topology.Utilities;
 using gmaFFFFF.CadastrBenin.DAL;
+using gmaFFFFF.CadastrBenin.ViewModel.Services;
+using gmaFFFFF.CadastrBenin.ViewModel.Message;
 using gmaFFFFF.CadastrBenin.ViewModel.Model;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using Microsoft.Maps.MapControl.WPF;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace gmaFFFFF.CadastrBenin.ViewModel
 {
-	public class ParcelEditViewModel : ViewModelBase
+	public class ParcelEditViewModel : MyViewModelBase
 	{
 		/// <summary>
 		/// Контекст базы данных
 		/// </summary>
 		private CadastrBeninDB ContextDb;
+		/// <summary>
+		/// Фабрика для создания контекстов данных
+		/// </summary>
+		private DBContextFactory ContextFactory;
+		/// <summary>
+		/// Выполняемая задача загрузки данных
+		/// </summary>
+		private Task LoadData;
+		/// <summary>
+		/// Выполняемая задача обновления данных
+		/// </summary>
+		private Task RefreshData;
 
 		public ParcelEditViewModel(DBContextFactory contextFactory)
 		{
@@ -34,16 +39,28 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 			}
 			else
 			{
-				ContextDb = contextFactory.Create();
-				ContextDb.Database.CommandTimeout = 60;
-				LoadDataAsync();
+				ContextFactory = contextFactory;
+				ContextDb = ContextFactory.Create();
+				LoadData = LoadDataAsync();
 			}
 
 			//Инициализация комманд
-			SaveChangesCommand = new RelayCommand(SaveChanges/*,()=> SaveUndoCommandCanExecute*/);
-			UndoChangesCommand = new RelayCommand(UndoChanges/*,()=> SaveUndoCommandCanExecute*/);
-		}
+			SaveChangesCommand = new RelayCommand(SaveChanges);
+			UndoChangesCommand = new RelayCommand(UndoChanges);
 
+			//Подписка на уведомление об изменении справочников
+			Messenger.Default.Register<ReferenceRefreshedMessage>(this, async (msg) =>
+			{
+				if (LoadData != null)					//Если не завершилась первичная загрузка данных, то ждем ее
+					await Task.WhenAll(LoadData);
+				if (RefreshData != null)                //Если не завершилась предыдущая операция обновления данных, то ждем ее
+					await Task.WhenAll(RefreshData);
+				RefreshData = RefreshDataAsync();		//Запускаем операцию обновления данных
+			});
+		}
+		/// <summary>
+		/// Очистка неуправляемых ресурсов
+		/// </summary>
 		public override void Cleanup()
 		{
 			ContextDb.Dispose();
@@ -61,60 +78,39 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 		{
 			if (!SaveUndoCommandCanExecute)
 				return;
-			//Источник https://code.msdn.microsoft.com/How-to-undo-the-changes-in-00aed3c4
-			foreach (DbEntityEntry entry in ContextDb.ChangeTracker.Entries())
-			{
-				switch (entry.State)
-				{
-					// Under the covers, changing the state of an entity from  
-					// Modified to Unchanged first sets the values of all  
-					// properties to the original values that were read from  
-					// the database when it was queried, and then marks the  
-					// entity as Unchanged. This will also reject changes to  
-					// FK relationships since the original value of the FK  
-					// will be restored. 
-					case EntityState.Modified:
-						entry.State = EntityState.Unchanged;
-						break;
-					case EntityState.Added:
-						entry.State = EntityState.Detached;
-						break;
-					// If the EntityState is the Deleted, reload the date from the database.   
-					case EntityState.Deleted:
-						entry.Reload();
-						break;
-					default: break;
-				}
-			}
+			ContextDb.DiscardAllChanges();
 			RaisePropertyChanged(nameof(Parcels));
 		}
 
 		/// <summary>
 		/// Загружает данные из базы данных
 		/// </summary>
-		async protected void LoadDataAsync()
+		async protected Task LoadDataAsync()
 		{
+			//Загружаем справочники
 			ContextDb.UtilisationTypes.Load();
 			ContextDb.CertificationDocumentTypes.Load();
 			UtilisationTypes = new ObservableCollection<UtilisationType>(ContextDb.UtilisationTypes.Local);
 			CertificationDocumentTypes = new ObservableCollection<CertificationDocumentType>(ContextDb.CertificationDocumentTypes.Local);
-			RaisePropertyChanged(nameof(UtilisationTypes));
-			RaisePropertyChanged(nameof(CertificationDocumentTypes));
-
+			
 			//Быстро загружаем несколько объектов
 			ContextDb.JuridiqueObjets.OfType<Parcelle>()
 					 .Include(i => i.Impots)
 					 .Include(ut => ut.Utilisations)
 					 .Include(s => s.CertificationDocuments)
 					 .OrderBy(p => p.NUP)
-					 .Take(50)
+					 .Take(100)
 					 .Load();
 			Parcels = new ObservableCollection<Parcelle>(ContextDb.JuridiqueObjets.Local.OfType<Parcelle>());
 			ParcelsViewSource.Source = Parcels;
+
+			//Уведомляем подписчиков об изменении данных
+			RaisePropertyChanged(nameof(UtilisationTypes));
+			RaisePropertyChanged(nameof(CertificationDocumentTypes));
 			RaisePropertyChanged(nameof(Parcels));
 			RaisePropertyChanged(nameof(ParcelsViewSource));
 
-			//Продолжаем загрузку
+			//Продолжаем загрузку оставшихся данных
 			await ContextDb.JuridiqueObjets.OfType<Parcelle>()
 							.Include(i => i.Impots)
 							.Include(ut => ut.Utilisations)
@@ -123,22 +119,110 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 							.LoadAsync();
 			ParcelsViewSource.Source = ContextDb.JuridiqueObjets.Local;
 			Parcels = new ObservableCollection<Parcelle>(ContextDb.JuridiqueObjets.Local.OfType<Parcelle>());
+			
+			//Уведомляем подписчиков об изменении данных
 			RaisePropertyChanged(nameof(Parcels));
 			RaisePropertyChanged(nameof(ParcelsViewSource));
-	
+		}
+		/// <summary>
+		/// Обновляет данные справочников изменившихся в БД
+		/// </summary>
+		/// <returns></returns>
+		async protected Task RefreshDataAsync()
+		{
+			//Актуальные справочники
+			ObservableCollection<UtilisationType> actualUtilisations;
+			ObservableCollection<CertificationDocumentType> actualCertificationDocumentTypes;
+			
+			//Загружаем актуальные справочники
+			using (CadastrBeninDB db = ContextFactory.Create())
+			{
+				await db.UtilisationTypes.LoadAsync();
+				await db.CertificationDocumentTypes.LoadAsync();
+
+				actualUtilisations = new ObservableCollection<UtilisationType>(db.UtilisationTypes.Local);
+				actualCertificationDocumentTypes = new ObservableCollection<CertificationDocumentType>(db.CertificationDocumentTypes.Local);
+			}
+
+			//Находим изменившиеся справочники
+			var oldUtilisations = ContextDb.UtilisationTypes.Local.Except(actualUtilisations, new UtilizationTypeEqualityComparer()).ToList();
+			var oldCertificationDocumentTypes = ContextDb.CertificationDocumentTypes.Local.Except(actualCertificationDocumentTypes, new CertificationDocumentTypeEqualityComparer()).ToList();
+			
+			//Находим зу, затронутые изменениями
+			var oldParcels = Parcels.Where(p => p.Utilisations.Select(u=>u.UtilisationTypeNom)
+												.Intersect(
+												  oldUtilisations.Select(u => u.Nom))
+												.Any()
+												||
+												p.CertificationDocuments.Select(c=>c.CertificationDocumentTypeNom)
+												.Intersect(
+												  oldCertificationDocumentTypes.Select(c=>c.Nom))
+												.Any()
+												).ToList();
+
+			
+			//Обновляем изменившиеся справочники
+			if (oldUtilisations.Any())
+			{
+				ContextDb.UtilisationTypes.Load();
+				UtilisationTypes = new ObservableCollection<UtilisationType>(ContextDb.UtilisationTypes.Local);
+				//Убираем из справочника устаревшие значения
+				foreach (var old in oldUtilisations.ToList())
+				{
+					UtilisationTypes.Remove(UtilisationTypes.Where(d => d.Nom == old.Nom).Single());
+				}
+			}
+			if (oldCertificationDocumentTypes.Any())
+			{
+				ContextDb.CertificationDocumentTypes.Load();
+				CertificationDocumentTypes = new ObservableCollection<CertificationDocumentType>(ContextDb.CertificationDocumentTypes.Local);
+				//Убираем из справочника устаревшие значения
+				foreach (var old in oldCertificationDocumentTypes.ToList())
+				{
+					CertificationDocumentTypes.Remove(CertificationDocumentTypes.Where(d=>d.Nom == old.Nom).Single());
+				}
+			}
+
+			//Обновляем участки, затронутые изменениями
+			foreach (var parcel in oldParcels)
+			{
+				foreach (var util in parcel.Utilisations)
+				{
+					if (oldUtilisations.Contains(util.UtilisationType))
+						ContextDb.Entry(util).Reload();
+				}
+
+				foreach (var doc in parcel.CertificationDocuments)
+				{
+					if (oldCertificationDocumentTypes.Contains(doc.CertificationDocumentType))
+						ContextDb.Entry(doc).Reload();
+				}
+			}
+			
+			//Направляем уведомление об изменении данных
+			RaisePropertyChanged(nameof(CertificationDocumentTypes));
+			RaisePropertyChanged(nameof(UtilisationTypes));
+			RaisePropertyChanged(nameof(Parcels));
 		}
 
-
 		#region Публичные поля для привязки данных
+		/// <summary>
+		/// Земельные участки
+		/// </summary>
 		public ObservableCollection<Parcelle> Parcels { get; set; }
+		/// <summary>
+		/// Справочник видов разрешенного использования
+		/// </summary>
 		public ObservableCollection<UtilisationType> UtilisationTypes { get; set; }
+		/// <summary>
+		/// Справочник типов правоодостоверяющих документов
+		/// </summary>
 		public ObservableCollection<CertificationDocumentType> CertificationDocumentTypes { get; set; }
+		//CollectionViewSource для земельных участков
 		public CollectionViewSource ParcelsViewSource { get; set; } = new CollectionViewSource();
 
 		#endregion
 		#region Команды
-		public RelayCommand SaveChangesCommand { get; set; }
-		public RelayCommand UndoChangesCommand { get; set; }
 		public bool SaveUndoCommandCanExecute { get { return ContextDb.ChangeTracker.HasChanges(); }}
 		#endregion
 

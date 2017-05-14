@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using gmaFFFFF.CadastrBenin.ViewModel;
 using gmaFFFFF.CadastrBenin.ViewModel.Model;
 using Microsoft.Maps.MapControl.WPF;
+using Hardcodet.Wpf.Util;
 
 namespace gmaFFFFF.CadastrBenin.DesktopApp
 {
@@ -27,7 +16,7 @@ namespace gmaFFFFF.CadastrBenin.DesktopApp
 		{
 			InitializeComponent();
 		}
-		#region Карта
+		#region Функциональность карты
 		/// <summary>
 		/// Переключает режим отображения карты
 		/// </summary>
@@ -50,15 +39,21 @@ namespace gmaFFFFF.CadastrBenin.DesktopApp
 					break;
 			}
 		}
-		#endregion
-
+		/// <summary>
+		/// Приближает к выбранном в списке результатов поиска земельному участку
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void FindParcels_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (e.AddedItems.Count == 0)
 				return;
-			ParcelModel selectedParcel = (ParcelModel) e.AddedItems[0];
-			MyMap.SetView(selectedParcel.Centroid,18);
+			ParcelModel selectedParcel = (ParcelModel)e.AddedItems[0];
+			MyMap.SetView(selectedParcel.Centroid, 18);
 		}
+		/// <summary>
+		/// Настраивает всплывающее окно с информацие о земельном участке после щелчка на ПушПине
+		/// </summary>
 		private void FindParcelPushpinClick(object sender, RoutedEventArgs e)
 		{
 			if (((Button)sender).Content is Pushpin)
@@ -68,13 +63,44 @@ namespace gmaFFFFF.CadastrBenin.DesktopApp
 				FindParcelDetail.IsOpen = true;
 			}
 		}
+		#endregion
 
+		#region Общая функциональность
+		/// <summary>
+		/// Настраивает контекст ApplicationToolbar для комманд соответствующим выбранной вкладке
+		/// </summary>
 		private void TabControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			TabItem tab = (TabItem)((TabControl) sender).SelectedItem;
+			TabItem tab = (TabItem)((TabControl)sender).SelectedItem;
 			if (tab != null)
 				ApplicationToolbar.DataContext = tab.DataContext;
-			
+
 		}
+		/// <summary>
+		/// Действия для подготовки сохранения
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SaveButton_OnPreviewMouseUp(object sender, MouseButtonEventArgs e)
+		{
+			//Завершить редактирование таблиц
+			EditTableEnding();
+		}
+		/// <summary>
+		/// Завершает редактирование таблиц с данными. Если пользователь этого не сделал сам
+		/// </summary>
+		/// <remarks>Нужно использовать чтобы при сохранении данных был учтен последний ввод</remarks>
+		private void EditTableEnding()
+		{
+			foreach (DataGrid tab in ((TabItem)MainTabControl.SelectedItem).FindChildren<DataGrid>())
+			{
+				tab.CommitEdit(DataGridEditingUnit.Row, true);
+			}
+		}
+		#endregion
+
+
+
+		
 	}
 }

@@ -12,7 +12,8 @@ namespace gmaFFFFF.SQLServer.RegEx
 	/// <summary>
 	/// Класс обеспечивает ограниченную функциональность регулярных выражений для SQL Server
 	/// </summary>
-	/// <remarks><para>Класс построен путем переписывания CLR Assembly RegEx Functions for SQL Server на язык C#. Автор Phil Factor. и небольшой его модификации</para>
+	/// <remarks><para>Класс построен путем переписывания CLR Assembly RegEx Functions for SQL Server на язык C#. Автор Phil Factor. и 
+	/// Небольшая модификация была направлена на расширение функциональности RegExMatches</para>
 	/// <para>https://www.simple-talk.com/sql/t-sql-programming/clr-assembly-regex-functions-for-sql-server-by-example/</para></remarks>
 	public partial class RegularExpressionFunctions
 	{

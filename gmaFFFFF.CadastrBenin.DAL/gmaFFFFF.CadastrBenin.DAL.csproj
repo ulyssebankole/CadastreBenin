@@ -78,6 +78,7 @@
     <Compile Include="CadastraleZones_v.cs">
       <DependentUpon>CadastrBeninDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="CadastrBeninDB.Partial1.cs" />
     <Compile Include="CadastrBeninDBModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -102,7 +103,6 @@
     <Compile Include="Corporation.cs">
       <DependentUpon>CadastrBeninDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataAccessServices.cs" />
     <Compile Include="Etat.cs">
       <DependentUpon>CadastrBeninDBModel.tt</DependentUpon>
     </Compile>
@@ -211,6 +211,7 @@
       <DependentUpon>CadastrBeninDBModel.edmx</DependentUpon>
       <LastGenOutput>CadastrBeninDBModel.cs</LastGenOutput>
     </Content>
+    <Content Include="readme.txt" />
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>

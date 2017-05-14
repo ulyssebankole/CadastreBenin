@@ -10,12 +10,16 @@ namespace gmaFFFFF.CadastrBenin.ViewModel.Model
 	public class DBContextFactory
 	{
 		/// <summary>
-		/// Предназначен для представления каждой ViewModel своего DBContext
+		/// Фабрика по созданию DBContext
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Контекст для работы с БД</returns>
 		public CadastrBeninDB Create()
 		{
-			return new CadastrBeninDB();
+			CadastrBeninDB context = new CadastrBeninDB();
+			context.Database.CommandTimeout = 60;               //Установка такого большого таймаута вызвана необходимостью учитывать 
+																//высокую вероятность того, что экземпляр LocalDb еще не запущен
+
+			return context;
 		}
 	}
 }

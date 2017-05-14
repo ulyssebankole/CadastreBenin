@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using gmaFFFFF.CadastrBenin.DAL;
+using gmaFFFFF.CadastrBenin.ViewModel.Message;
 using gmaFFFFF.CadastrBenin.ViewModel.Model;
 using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Practices.ServiceLocation;
 
 namespace gmaFFFFF.CadastrBenin.ViewModel
@@ -25,19 +27,19 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 
 			////if (ViewModelBase.IsInDesignModeStatic)
 			////{
-			////	// Создайте view services and models времени проектирования
+			////	// Создайте сервис данных времени проектирования
 			////	SimpleIoc.Default.Register<IDataService, DesignDataService>();
 			////}
 			////else
 			////{
-			////	// Создайте view services and models времени выплнения
+			////	// Создайте сервис данных времени выполнения
 			////	SimpleIoc.Default.Register<IDataService, DataService>();
 			////}
 			
 			SimpleIoc.Default.Register<ReferenceViewModel>();
 			SimpleIoc.Default.Register<MapViewModel>();
-			SimpleIoc.Default.Register<DBContextFactory>();
 			SimpleIoc.Default.Register<ParcelEditViewModel>();
+			SimpleIoc.Default.Register<DBContextFactory>();
 		}
 
 
@@ -45,8 +47,14 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 		public MapViewModel Map { get { return ServiceLocator.Current.GetInstance<MapViewModel>(); } }
 		public ParcelEditViewModel ParcelEditor { get { return ServiceLocator.Current.GetInstance<ParcelEditViewModel>(); } }
 
+		/// <summary>
+		/// Освобождает занятые ресурсы
+		/// </summary>
+		/// <remarks>Рекомендуется вызвать при завершении приложения, например, в методе OnExit приложения</remarks>
 		public static void Cleanup()
 		{
+			//Уведомить подписчиков о необходимости освободить занятые ресурсы
+			Messenger.Default.Send<CleanUpMessage>(new CleanUpMessage());
 		}
 	}
 }

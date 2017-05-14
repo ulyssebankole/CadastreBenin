@@ -1,26 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using GalaSoft.MvvmLight;
 using gmaFFFFF.CadastrBenin.DAL;
 using System.Windows.Data;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Windows;
-using System.Windows.Input;
+using gmaFFFFF.CadastrBenin.ViewModel.Message;
 using gmaFFFFF.CadastrBenin.ViewModel.Model;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace gmaFFFFF.CadastrBenin.ViewModel
 {
-	public class ReferenceViewModel : ViewModelBase
+	/// <summary>
+	/// Модель представления для окна редактирования справочников
+	/// </summary>
+	public class ReferenceViewModel : MyViewModelBase
 	{
-		/// <summary>
-		/// Контекст базы данных
-		/// </summary>
-		private CadastrBeninDB ContextDb;
 		public ReferenceViewModel(DBContextFactory contextFactory)
 		{
 			if (IsInDesignMode)
@@ -36,6 +33,9 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 			SaveChangesCommand = new RelayCommand(SaveChanges);
 			UndoChangesCommand = new RelayCommand(UndoChanges);
 		}
+		/// <summary>
+		/// Очищает неуправляемые ресурсы
+		/// </summary>
 		public override void Cleanup()
 		{
 			ContextDb.Dispose();
@@ -56,14 +56,14 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 			await ContextDb.Etats.LoadAsync();
 			await ContextDb.CadastraleDivisions.LoadAsync();
 
-			//Сохраняем справочники в общедоступных полях 
+			//Сохраняем справочники
 			CertificationDocTypesDB   = ContextDb.CertificationDocumentTypes.Local;
 			SinistreeTypesDB		  = ContextDb.SinistreeTypes.Local;
 			SujetDocumentTypesDB	  = ContextDb.SujetDocumentTypes.Local;
-			UtilisationTypesDB		= ContextDb.UtilisationTypes.Local;
+			UtilisationTypesDB		  = ContextDb.UtilisationTypes.Local;
 			JuridiqueTypesDB		  = ContextDb.JuridiqueTypes.Local;
-			EtatsDB				   = ContextDb.Etats.Local;
-			CadastraleDivisions	 = ContextDb.CadastraleDivisions.Local;
+			EtatsDB				      = ContextDb.Etats.Local;
+			CadastraleDivisions		  = ContextDb.CadastraleDivisions.Local;
 
 			//Обеспечиваем упорядочивание по алфавиту
 			((ListCollectionView)CollectionViewSource.GetDefaultView(CertificationDocTypes))
@@ -90,23 +90,24 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 			RaisePropertyChanged(nameof(EtatsDB));
 			RaisePropertyChanged(nameof(CadastraleDivisions));
 
-			//Создаем прокси объекты для справочников, т.к. Entity Framework не поддерживает изменение ключей в БД
+			//Создаем прокси объекты для справочников с естественным ключом, т.к. Entity Framework не поддерживает изменение ключей в БД
 			CreateProxy();
 		}
 
 		/// <summary>
-		/// Сохраяет все внесенные изменения
+		/// Сохраняет все внесенные изменения
 		/// </summary>
 		protected void SaveChanges()
 		{
-			//Кривой код этой функции вызван отсутствием поддержки обновления ключей БД со стороны EntityFramework.
-			//Из-за этого операции вставки, удаления и изменения проводить через объект заместитель.
-
 			try
 			{
-			#region Шаблонный код обработки заместителей
-			//CertificationDocTypes
-			var delCertificationDocTypes = CertificationDocTypesDB.Except(
+				//Шаблонный код вызван отсутствием поддержки обновления ключей БД со стороны EntityFramework.
+				//Из-за этого операции вставки, удаления и изменения проводятся через объект заместитель, который позволяет
+				//в случае замены ключа осуществить вставку нового ключа с перепривязкой к нему всех загруженных значений.
+				//Полагаю, что по соображениям производительности справочники лучше менять с помощью SQL
+				#region Шаблонный код обработки заместителей
+				//CertificationDocTypes
+				var delCertificationDocTypes = CertificationDocTypesDB.Except(
 											CertificationDocTypes.Where(d => !d.Added).Select(d => d.InnerReference)).ToList();
 			foreach (var del in delCertificationDocTypes)
 			{
@@ -358,52 +359,36 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 
 				ContextDb.Entry<TransactionType>(oldType).State = EntityState.Deleted;
 			}
-			
-				if (ContextDb.ChangeTracker.HasChanges())
+			#endregion
+
+				
+				if (ContextDb.ChangeTracker.HasChanges())	//Если были зафиксированы изменения
+				{
 					ContextDb.SaveChanges();
-
-
-				#endregion
+					CreateProxy();				//Воссоздаем заместителей
+					//Уведомляем об изменении справочников
+					Messenger.Default.Send<ReferenceRefreshedMessage>(new ReferenceRefreshedMessage());
+				}
 			}
 			catch (Exception e)
 			{
-				string message = "Ошибка ввода: " + e.Message;
-				if (e.InnerException != null)
-					message = message + '\n' + e.InnerException.Message;
-				message += "\nДля предотвращения повреждения данных результаты редактирования аннулированы";
+				string message = "Редактирование нарушает целостность данных:\n" + e.Message;
+				Exception ie = e.InnerException;
+				while (ie != null)
+				{
+					message += '\n' + ie.Message;
+					ie = ie.InnerException;
+				}
+				message += "\nДля сохранения целостности данных результаты редактирования аннулированы";
 
 				MessageBox.Show(message, "Ошибка ввода данных", MessageBoxButton.OK);
 
 				//Отменяем внесенные изменения
-				//Источник https://code.msdn.microsoft.com/How-to-undo-the-changes-in-00aed3c4
-				foreach (DbEntityEntry entry in ContextDb.ChangeTracker.Entries())
-				{
-					switch (entry.State)
-					{
-						// Under the covers, changing the state of an entity from  
-						// Modified to Unchanged first sets the values of all  
-						// properties to the original values that were read from  
-						// the database when it was queried, and then marks the  
-						// entity as Unchanged. This will also reject changes to  
-						// FK relationships since the original value of the FK  
-						// will be restored. 
-						case EntityState.Modified:
-							entry.State = EntityState.Unchanged;
-							break;
-						case EntityState.Added:
-							entry.State = EntityState.Detached;
-							break;
-						// If the EntityState is the Deleted, reload the date from the database.   
-						case EntityState.Deleted:
-							entry.Reload();
-							break;
-						default: break;
-					}
-				}
+				ContextDb.DiscardAllChanges();
+				
+				LoadDataAsync();		//Полная перезагрузка данных
 			}
 
-			//Воссоздаем заместителей
-			CreateProxy();
 		}
 		/// <summary>
 		/// Отменяет все внесенные изменения
@@ -413,11 +398,9 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 			//Воссоздаем заместителей
 			CreateProxy();
 		}
-
-
-
+		
 		/// <summary>
-		/// Наполняет заместители реальных объектов данными
+		/// Наполняет заместители реальных справочников данными
 		/// </summary>
 		protected void CreateProxy()
 		{
@@ -474,25 +457,48 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 		}
 
 		#region Поля для привязки данных
-		protected ObservableCollection<CertificationDocumentType>  CertificationDocTypesDB	{ get; set; }
+		/// <summary>
+		/// Типы правоудостоверяющих документов на земельный участок
+		/// </summary>
 		public ObservableCollection<CertificationDocumentTypeProxy> CertificationDocTypes	{ get; set; } = new ObservableCollection<CertificationDocumentTypeProxy>();
-		protected ObservableCollection<SinistreeType>			SinistreeTypesDB			{ get; set; }
+		/// <summary>
+		/// Типы стихийных бедствий
+		/// </summary>
 		public ObservableCollection<SinistreeTypeProxy>			SinistreeTypes				{ get; set; } = new ObservableCollection<SinistreeTypeProxy>();
-		protected ObservableCollection<SujetDocumentType>		SujetDocumentTypesDB		{ get; set; }
+		/// <summary>
+		/// Типы документов правообладателей земельных участков
+		/// </summary>
 		public ObservableCollection<SujetDocumentTypeProxy>		SujetDocumentTypes			{ get; set; } = new ObservableCollection<SujetDocumentTypeProxy>();
-		protected ObservableCollection<UtilisationType>			UtilisationTypesDB			{ get; set; }
+		/// <summary>
+		/// Типы разрешенных использований земельного участка
+		/// </summary>
 		public ObservableCollection<UtilisationTypeProxy>		UtilisationTypes			{ get; set; } = new ObservableCollection<UtilisationTypeProxy>();
-		protected ObservableCollection<JuridiqueType>			JuridiqueTypesDB			{ get; set; }
+		/// <summary>
+		/// Типы прав на объект недвижимости
+		/// </summary>
 		public ObservableCollection<JuridiqueTypeProxy>			JuridiqueTypes				{ get; set; } = new ObservableCollection<JuridiqueTypeProxy>();
-		protected ObservableCollection<Etat>					EtatsDB						{ get; set; }
+		/// <summary>
+		/// Перечень стран мира
+		/// </summary>
 		public ObservableCollection<EtatProxy>					Etats						{ get; set; } = new ObservableCollection<EtatProxy>();
+		/// <summary>
+		/// Названия единиц кадастрового деления
+		/// </summary>
 		public ObservableCollection<CadastraleDivision>			CadastraleDivisions			{ get; set; }
 		#endregion
 
-		#region Команды
+		/// <summary>
+		/// Контекст базы данных
+		/// </summary>
+		protected CadastrBeninDB ContextDb;
 
-		public RelayCommand SaveChangesCommand { get; set; }
-		public RelayCommand UndoChangesCommand { get; set; }
+		#region Защищенные списки справочников для которых созданы заместители
+		protected ObservableCollection<Etat> EtatsDB { get; set; }
+		protected ObservableCollection<JuridiqueType> JuridiqueTypesDB { get; set; }
+		protected ObservableCollection<UtilisationType> UtilisationTypesDB { get; set; }
+		protected ObservableCollection<SujetDocumentType> SujetDocumentTypesDB { get; set; }
+		protected ObservableCollection<CertificationDocumentType> CertificationDocTypesDB { get; set; }
+		protected ObservableCollection<SinistreeType> SinistreeTypesDB { get; set; }
 		#endregion
 	}
 }

@@ -9,7 +9,7 @@ using System.Xml.Linq;
 namespace gmaFFFFF.CadastrBenin.Deploy.Settings
 {
 	/// <summary>
-	/// Осуществляет подготовку программы к запуску после установки
+	/// Осуществляет подготовку основной программы к запуску после установки
 	/// </summary>
 	class PostInstallSettings
 	{
@@ -28,8 +28,14 @@ namespace gmaFFFFF.CadastrBenin.Deploy.Settings
 			catch (Exception e)
 			{
 				Console.WriteLine(e.Message);
-				if (e.InnerException != null)
-					Console.WriteLine(e.InnerException.Message);
+
+				Exception ie = e.InnerException;
+				while (ie != null)
+				{
+					Console.WriteLine(ie.Message);
+					ie = ie.InnerException;
+				}
+
 				Console.WriteLine("Сообщите информацию системному администратору.\nДля продолжения нажмите ENTER");
 				Console.ReadLine();
 			}
@@ -39,6 +45,7 @@ namespace gmaFFFFF.CadastrBenin.Deploy.Settings
 		/// </summary>
 		static void EnableDataBaseClr()
 		{
+			//Большая величина Connection Timeout обусловлена необходимостью первоначальной загрузки экземпляра localDB
 			using (SqlConnection connection = new SqlConnection(@"Server=(localdb)\MSSQLLocalDB;Integrated Security=true;Connection Timeout=90"))
 			{
 				using (SqlCommand command = connection.CreateCommand())
