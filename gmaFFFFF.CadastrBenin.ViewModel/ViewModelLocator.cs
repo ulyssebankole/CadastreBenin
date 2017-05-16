@@ -40,14 +40,14 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 			SimpleIoc.Default.Register<MapViewModel>();
 			SimpleIoc.Default.Register<ParcelEditViewModel>();
 			SimpleIoc.Default.Register<DBContextFactory>();
-			SimpleIoc.Default.Register<EditParcelGeometryViewModel>();
+			SimpleIoc.Default.Register<GeometryEditViewModel>();
 		}
 
 
 		public ReferenceViewModel Reference { get { return ServiceLocator.Current.GetInstance<ReferenceViewModel>(); } }
 		public MapViewModel Map { get { return ServiceLocator.Current.GetInstance<MapViewModel>(); } }
 		public ParcelEditViewModel ParcelEditor { get { return ServiceLocator.Current.GetInstance<ParcelEditViewModel>(); } }
-		public EditParcelGeometryViewModel ParcelGeometryViewModelEditor { get {return ServiceLocator.Current.GetInstance<EditParcelGeometryViewModel>();} }
+		public GeometryEditViewModel ViewModelEditor { get {return ServiceLocator.Current.GetInstance<GeometryEditViewModel>();} }
 		/// <summary>
 		/// Освобождает занятые ресурсы
 		/// </summary>

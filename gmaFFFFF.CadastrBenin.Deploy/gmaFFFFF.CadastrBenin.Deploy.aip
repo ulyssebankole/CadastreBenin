@@ -19,10 +19,10 @@
     <ROW Property="AiFeatIcoMainFeature" Value="FlagBenin.exe" Type="8"/>
     <ROW Property="Manufacturer" Value="МИИГАиК"/>
     <ROW Property="MsiLogging" MultiBuildValue="DefaultBuild:vp"/>
-    <ROW Property="ProductCode" Value="1049:{42EE2FC6-47DB-4A18-AEF7-CC8D6E0F2861} " Type="16"/>
+    <ROW Property="ProductCode" Value="1049:{5362530A-E63B-4657-ACD4-1CE38204EC29} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1049"/>
     <ROW Property="ProductName" Value="Прототип системы ГКУ"/>
-    <ROW Property="ProductVersion" Value="0.1.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="0.1.1" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{4C918E05-0CEC-442B-ADD5-D4E95DCB80F6}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
@@ -216,7 +216,7 @@
     <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="748"/>
     <ROW Action="AI_STORE_LOCATION" Condition="(Not Installed) OR REINSTALL" Sequence="1501"/>
     <ROW Action="AI_PREPARE_UPGRADE" Condition="AI_UPGRADE=&quot;No&quot; AND (Not Installed)" Sequence="1399"/>
-    <ROW Action="AI_ResolveKnownFolders" Sequence="52"/>
+    <ROW Action="AI_ResolveKnownFolders" Sequence="53"/>
     <ROW Action="AI_EnableDebugLog" Sequence="51"/>
     <ROW Action="AI_AppSearchEx" Sequence="102"/>
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99" Builds="DefaultBuild"/>

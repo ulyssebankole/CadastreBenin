@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,6 +31,11 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 		/// Выполняемая задача обновления данных
 		/// </summary>
 		private Task RefreshData;
+		/// <summary>
+		/// Кэш для отслеживания удаленных земельных участков
+		/// </summary>
+		private ObservableCollection<Parcelle> ParcelsDelete { get; set; } = new ObservableCollection<Parcelle>();
+		
 
 		public ParcelEditViewModel(DBContextFactory contextFactory)
 		{
@@ -75,10 +81,13 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 			if (!SaveUndoCommandCanExecute)
 				return;
 			
+			//Помечаем к удалению записи, которые больше не связаны с земельным участком 
 			DeleteDetailRecordTogetherRelationship();
 
 			ContextDb.SaveChanges();
-			
+
+			//Удаленные участки больше не нужны в кэше
+			ParcelsDelete.Clear();
 		}
 		/// <summary>
 		/// Отменяет все внесенные изменения
@@ -87,11 +96,31 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 		{
 			if (!SaveUndoCommandCanExecute)
 				return;
-
+			
+			//Помечаем к удалению записи, которые больше не связаны с земельным участком 
 			DeleteDetailRecordTogetherRelationship();
 
+			//Удаляем из кэша участков добавленные в данном сеансе редактирования
+			var addParcel = ContextDb.ChangeTracker.Entries<Parcelle>().Where(p => p.State == EntityState.Added);
+			foreach (var del in addParcel)
+			{
+				Parcels.Remove(del.Entity);
+			}
+
+			//Отменяем все изменения в БД
 			ContextDb.DiscardAllChanges();
+			
+
+			//Возвращаем из кэша удаленные земельные участки
+			foreach (var del in ParcelsDelete)
+			{
+				Parcels.Add(del);
+			}
+			ParcelsDelete.Clear();
+
+			//Уведомляем об изменении свойств
 			RaisePropertyChanged(nameof(Parcels));
+			RaisePropertyChanged(nameof(ParcelsViewSource));
 		}
 
 		/// <summary>
@@ -248,7 +277,62 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 			}
 
 		}
+		/// <summary>
+		/// Создает новый земельный участок, но не присоединяет его к базе данных
+		/// </summary>
+		/// <returns>Земельный участок</returns>
+		public Parcelle CreateNewParcel()
+		{
+			Parcelle newParcel = new Parcelle() {GUID = Guid.NewGuid()};
+			return newParcel;
+		}
+		/// <summary>
+		/// Добавляет новый земельный участок к БД, присваивая ему новый кадастровый номер
+		/// </summary>
+		/// <param name="newParcel"></param>
+		public void AddNewParcelInDb(Parcelle newParcel)
+		{
+			using (var context = ContextFactory.Create())
+			{
+				context.CadastraleSecteurs_v.Load();
+				var cadSect = context.CadastraleSecteurs_v.Local;
+				newParcel.CadSecteurNumero = cadSect.Where(s => s.Shape.Intersects(newParcel.Shape)).First().Numero;
+				
+				newParcel.ParcelleSurCadSecteurNumero = (Parcels.Where(p => p.CadSecteurNumero == newParcel.CadSecteurNumero)
+																.Max(p => p.ParcelleSurCadSecteurNumero) ?? 0) + 1;
+				newParcel.NUP = string.Format("{0}-{1:D4}", newParcel.CadSecteurNumero, newParcel.ParcelleSurCadSecteurNumero);
+				ContextDb.JuridiqueObjets.Attach(newParcel);
+				ContextDb.Entry(newParcel).State = EntityState.Added;
 
+				Parcels.Add(newParcel);
+
+
+				//Уведомляем об изменении свойств
+				RaisePropertyChanged(nameof(ParcelsViewSource));
+				RaisePropertyChanged(nameof(Parcels));
+			}
+		}
+		/// <summary>
+		/// Помечает участок к удалению из базы данных и удаляет его из списка<see cref="Parcels"/>
+		/// </summary>
+		/// <param name="parcel">Удаляемые земельный участок</param>
+		/// <remarks>Удаленный участок сохраняется в кэше <see cref="ParcelsDelete"/></remarks>
+		public void DeleteParcelle(Parcelle parcel)
+		{
+			if (Parcels.Contains(parcel))
+			{
+				//Сохраняем сведения об удаленном участке для поддержки отмены операции
+				if(ContextDb.Entry(parcel).State != EntityState.Added)
+					ParcelsDelete.Add(parcel);
+
+				ContextDb.JuridiqueObjets.Remove(parcel);
+				Parcels.Remove(parcel);
+
+				//Уведомляем об изменении свойств
+				RaisePropertyChanged(nameof(ParcelsViewSource));
+				RaisePropertyChanged(nameof(Parcels));
+			}
+		}
 
 		#region Публичные поля для привязки данных
 		/// <summary>
@@ -269,6 +353,7 @@ namespace gmaFFFFF.CadastrBenin.ViewModel
 		#endregion
 		#region Команды
 		public bool SaveUndoCommandCanExecute { get { return ContextDb.ChangeTracker.HasChanges(); }}
+		
 		#endregion
 
 	}

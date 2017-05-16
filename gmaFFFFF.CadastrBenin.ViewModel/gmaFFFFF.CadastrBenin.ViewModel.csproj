@@ -108,7 +108,7 @@
     <Compile Include="ViewModel\MapViewModel.cs" />
     <Compile Include="Model\ParcelModel.cs" />
     <Compile Include="ViewModel\MyViewModelBase.cs" />
-    <Compile Include="ViewModel\EditParcelGeometryViewModel.cs" />
+    <Compile Include="ViewModel\GeometryEditViewModel.cs" />
     <Compile Include="ViewModel\ParcelEditViewModel.cs" />
     <Compile Include="ViewModel\ReferenceViewModel.cs" />
     <Compile Include="ViewModelLocator.cs" />
