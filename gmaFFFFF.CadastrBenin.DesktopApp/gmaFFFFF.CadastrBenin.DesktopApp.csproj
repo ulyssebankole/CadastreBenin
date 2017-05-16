@@ -114,12 +114,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="EditParcelGeometryWindow.xaml.cs">
-      <DependentUpon>EditParcelGeometryWindow.xaml</DependentUpon>
+    <Compile Include="GeometryEditWindow.xaml.cs">
+      <DependentUpon>GeometryEditWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\Converters.cs" />
     <Compile Include="Services\UIHelper.cs" />
-    <Page Include="EditParcelGeometryWindow.xaml">
+    <Page Include="GeometryEditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

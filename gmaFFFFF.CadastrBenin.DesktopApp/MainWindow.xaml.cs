@@ -5,6 +5,7 @@ using gmaFFFFF.CadastrBenin.ViewModel.Model;
 using Microsoft.Maps.MapControl.WPF;
 using Hardcodet.Wpf.Util;
 using gmaFFFFF.CadastrBenin.DAL;
+using gmaFFFFF.CadastrBenin.ViewModel;
 
 namespace gmaFFFFF.CadastrBenin.DesktopApp
 {
@@ -100,13 +101,39 @@ namespace gmaFFFFF.CadastrBenin.DesktopApp
 		}
 		#endregion
 
+		/// <summary>
+		/// Запуск процесса редактирования геометрии участка
+		/// </summary>
 		private void EditParcelGeometry_OnClick(object sender, RoutedEventArgs e)
 		{
 			if (Parcels.SelectedItem == null)
 				return;
 			Parcelle parcel = (Parcelle) Parcels.SelectedItem;
-			EditParcelGeometryWindow win = new EditParcelGeometryWindow(parcel);
+			GeometryEditWindow win = new GeometryEditWindow(parcel);
 			win.ShowDialog();
+		}
+		/// <summary>
+		/// Запуск процесса добавления нового земельного участка
+		/// </summary>
+		private void AddNewParcel(object sender, RoutedEventArgs e)
+		{
+			ParcelEditViewModel ViewModel = ((ViewModelLocator) FindResource("ViewModelLocator")).ParcelEditor;
+			Parcelle parcel = ViewModel.CreateNewParcel();
+			GeometryEditWindow win = new GeometryEditWindow(parcel);
+			if (win.ShowDialog()??false)
+				ViewModel.AddNewParcelInDb(parcel);
+
+			//Выделяем новый зу и пролистываем таблицу до него
+			Parcels.SelectedItem = parcel;
+			Parcels.ScrollIntoView(parcel);
+		}
+		/// <summary>
+		/// Удалить выделенный участок 
+		/// </summary>
+		private void DeleteParcel_OnClick(object sender, RoutedEventArgs e)
+		{
+			ParcelEditViewModel ViewModel = ((ViewModelLocator)FindResource("ViewModelLocator")).ParcelEditor;
+			ViewModel.DeleteParcelle((Parcelle)Parcels.SelectedItem);
 		}
 	}
 }

@@ -20,27 +20,23 @@ namespace gmaFFFFF.CadastrBenin.DesktopApp
 	/// <summary>
 	/// Логика взаимодействия для EditParcelGeometryWindow.xaml
 	/// </summary>
-	public partial class EditParcelGeometryWindow : Window
+	public partial class GeometryEditWindow : Window
 	{
-		protected EditParcelGeometryViewModel ViewModel;
-		public EditParcelGeometryWindow(Parcelle parcel)
+		protected GeometryEditViewModel ViewModel;
+		public GeometryEditWindow(Parcelle parcel)
 		{
 			InitializeComponent();
-			ViewModel = ((ViewModelLocator) FindResource("ViewModelLocator")).ParcelGeometryViewModelEditor;
+			ViewModel = ((ViewModelLocator) FindResource("ViewModelLocator")).ViewModelEditor;
 			ViewModel.NewJob(parcel);
 		}
 
-		private void Save_OnClick(object sender, RoutedEventArgs e)
+		private void OkButton_OnClick(object sender, RoutedEventArgs e)
 		{
-			try
+			ViewModel.SaveChangesCommand.Execute(null);
+			if (ViewModel.IsEndEditing)
 			{
-				Wkt.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-			}
-			catch (Exception ex)
-			{
-				string message = String.Format("Ошибка ввод координат: {0}",ex.Message);
-				e.Handled = true;
-				MessageBox.Show(message);
+				DialogResult = true;
+				Close();
 			}
 		}
 	}

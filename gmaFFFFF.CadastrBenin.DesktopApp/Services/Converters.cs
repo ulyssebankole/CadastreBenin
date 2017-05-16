@@ -111,7 +111,7 @@ namespace gmaFFFFF.CadastrBenin.DesktopApp
 	/// Конвертирует геометрию в текстовый формат WKT
 	/// </summary>
 	[ValueConversion(typeof(SqlGeometry), typeof(string))]
-	public class SqlGeometryConverter : IValueConverter
+	public class SqlGeometryToStringConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
