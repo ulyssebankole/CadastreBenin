@@ -1,1 +1,2 @@
-Проект БД можно исследовать или с помощью Embarcadero ERStudio 10 или более поздних версий - "ER Model_Embarcadero ERStudio 10.0.DM1", или с помощью браузера - "ER Model_html.zip"
+Проект БД можно исследовать с помощью Embarcadero ERStudio 10 - "ER Model_Embarcadero ERStudio 10.0.DM1", 
+или с помощью браузера - "ER Model_html.zip"
